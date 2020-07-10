@@ -1,0 +1,62 @@
+/* Write your custom CSS here */
+.slimScrollDiv
+ {
+    width: -moz-available!important;
+}
+
+.page-sidebar{
+    width: 250!important;
+
+}
+
+.compact-sidebar .page-sidebar{
+    width: 157px!important;
+    position: absolute;
+}
+
+
+.compact-sidebar .logo-box a#sidebar-state i.compact-sidebar-icon {
+    position: relative !important;
+    right: 63px;
+}
+
+.compact-sidebar .page-container {
+    margin-left: 100px !important;
+    margin-top: -80px !important;
+    position: absolute!important;
+}
+
+.page-container {
+padding: 48px!important;
+margin-left: 200px!important;
+margin-top: -40px !important;
+}
+
+.accordion-menu li.active-page > a:only-child {
+    width: -moz-min-content!important;
+}
+
+.page-header .navbar-collapse .navbar-nav {
+    margin-right: -80px!important;
+}
+
+#navbar-list {
+    position: relative;
+    right: 72px;
+}
+
+.NameDisplay {
+
+    margin-left: 300px;
+    font-size: 38px;
+    font-style: oblique;
+    font-weight: bolder;
+
+}
+
+.TimeDisplay {
+    font-size: 14px !important;
+    margin-left: inherit;
+    font-weight: lighter;
+
+}
