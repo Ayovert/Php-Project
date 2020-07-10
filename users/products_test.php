@@ -112,7 +112,7 @@ require("php/connect_to_products.php");
                                     <li class="level3"><a href="wishlist.html" title="">My Wishlist</a></li>
                                     <li class="level3"><a href="checkout.html" title="">Checkout</a></li>
                                     <li class="level3"><a href="myaccount.html" title="">My Account</a></li>
-                                    <li class="level3"><a href="track.html" title="">Track Your Order</a></li>
+                                    <li class="level3"><a href="track.php" title="">Track Your Order</a></li>
                                     <li class="level3"><a href="quickview.html" title="">Quick View</a></li>
                                 </ul>
                             </li>
