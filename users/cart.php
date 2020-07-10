@@ -204,7 +204,7 @@
                    <div class="row flex">
                         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 v-center header-logo">
                            
-                               <a href="#"><img src="img/logo.png" alt="" class="img-reponsive"></a>
+                               <a href="products_test.php"><img src="img/logo.png" alt="" class="img-reponsive"></a>
                            
                         </div>
                        <div class="col-lg-7 col-md-7 v-center header-search hidden-xs hidden-sm">
@@ -334,7 +334,7 @@
                                                 </div>
                                                 <div class="button-cart">
                                                     <a href="#" class="cart-btn btn-viewcart">View Cart</a>
-                                                    <a href="#" class="cart-btn e-checkout btn-gradient">Checkout</a>
+                                                    <a href="checkout.html" class="cart-btn e-checkout btn-gradient">Checkout</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -905,7 +905,7 @@
                                 </table>
                             </div>
                             <div class="cart-total-bottom">
-                                <a href="#" class="btn-gradient btn-checkout">Proceed to checkout</a>
+                                <a href="checkout.php" class="btn-gradient btn-checkout">Proceed to checkout</a>
                             </div>
                             <div class="sign-in-divider">
                                 <span>or</span>
@@ -1164,13 +1164,8 @@
         <!-- /footer -->
         <!-- /footer -->
     </div>
+    <?php include("scripts.php") ?>
     
-    <script src="js/jquery.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/slick.min.js"></script>
-    
-    <script src="js/main.js"></script>
 </body>
 
 </html>

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -797,7 +798,8 @@
                         </div>
                     </div>
                 </div>
-                <form name="checkout" method="post" class="co">
+                <form name="checkout" action="php/connect_to_db.php" method="post" class="co">
+                <input type="hidden" name="id" value="<?php echo $id; ?>">
                     <div class="cart-box-container-ver2">
                         <div class="row">
                             <div class="col-md-8">
@@ -808,40 +810,40 @@
                                     <div class="row form-customer">
                                         <div class="form-group col-md-6">
                                             <label for="inputfname_2" class=" control-label">First Name <span class="f-red">*</span></label>
-                                            <input type="text" id="inputfname_2" class="form-control form-account">
+                                            <input type="text" id="inputfname_2" name="FirstName" value="" class="form-control form-account">
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="inputlname" class=" control-label">Last Name <span class="f-red">*</span></label>
-                                            <input type="text" id="inputlname" class="form-control form-account">
+                                            <input type="text" id="inputlname" name="LastName" value="" class="form-control form-account">
                                         </div>
                                         <div class="form-group col-md-12">
                                             <label for="inputcompany" class=" control-label">Company Name</label>
-                                            <input type="text" id="inputcompany" class="form-control form-account">
+                                            <input type="text" id="inputcompany" name="CompanyName" value="" class="form-control form-account">
                                         </div>
                                         <div class="form-group col-md-12">
                                             <label for="inputcountry1" class=" control-label">Country <span class="f-red">*</span></label>
                                             
-                                            <input type="text" id="inputcountry1" class="form-control form-account">
+                                            <input type="text" id="inputcountry1" name="Country" value="" class="form-control form-account">
                                         </div>                                    
                                         <div class="form-group col-md-12">
                                             <label for="inputstreet" class=" control-label">Street address <span class="f-red">*</span></label>
-                                            <input type="text" id="inputstreet" class="form-control form-account">
+                                            <input type="text" id="inputstreet" name="StreetAddress" value="" class="form-control form-account">
                                         </div>
                                         <div class="form-group col-md-12">
                                             <label for="inputpostcode" class=" control-label">Postcode / ZIP</label>
-                                            <input type="text" id="inputpostcode" class="form-control form-account">
+                                            <input type="text" id="inputpostcode" name="PostCode" value="" class="form-control form-account">
                                         </div>
                                         <div class="form-group col-md-12">
                                             <label for="inputfState" class=" control-label">Town / City <span class="f-red">*</span></label>
-                                            <input type="text" id="inputfState" class="form-control form-account">
+                                            <input type="text" id="inputfState" name="TownCity" value="" class="form-control form-account">
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="inputphone" class=" control-label">Phone <span class="f-red">*</span></label>
-                                            <input type="text" id="inputphone" class="form-control form-account">
+                                            <input type="text" id="inputphone" name="Phone" value="" class="form-control form-account">
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="inputemail" class=" control-label">Email Address <span class="f-red">*</span></label>
-                                            <input type="text" id="inputemail" class="form-control form-account">
+                                            <input type="text" id="inputemail" name="email" value="" class="form-control form-account">
                                         </div>
                                         <div class="form-check col-md-12">
                                             <label class="form-check-label ver2">
@@ -945,8 +947,8 @@
                                             <span>I’ve read and accept the <a href="#" class="term">terms & conditions *</a></span>
                                         </label>
                                     </div>
-                                    <div class="cart-total-bottom v2">
-                                        <a href="#" class="btn-gradient btn-checkout btn-co-order">Place order</a>
+                                    <div class="cart-total-bottom v2 form-group">
+                                    <button class="btn-gradient btn-checkout btn-co-order" type="submit" name="order"> Place order</button>
                                     </div>
                                 </div>
                             </div>

@@ -10,7 +10,7 @@ include("connection.php");
     $result = $mysqli->query($sql);
 
     if ($result = $mysqli->query($sql) && (count((array)$result)) == 1) {
-        $row = mysqli_fetch_row($result);
+        $row = mysqli_fetch_row((array)$result);
         $product_id = $row['product_id'];
         $product_name = $row['product_name'];
         $product_price = $row['product_price'];

@@ -19,6 +19,14 @@ echo "Connected successfully";
 $email = "";
 $username = "";
 $password = "";
+$FirstName= "";
+$LastName= "";
+$CompanyName="";
+$Country="";
+$StreetAddress="";
+$PostCode="";
+$TownCity="";
+$Phone="";
 $crnDate = date("Y-m-d H:i:s");
 $id = 0;
 $update = false;
@@ -105,7 +113,7 @@ if ((isset($_POST['username'])) ){
   
 //Checking is user existing in the database or not
       $sql = "SELECT * FROM users WHERE username='$username' and password='".md5($password)."'";
-  $result = $mysqli->query($sql)or die($mysqli -> error);
+  $result = $mysqli->query($sql)or die($mysqli ->error);
   $rows = mysqli_num_rows($result);
       if($rows==1){
     if($username == ('admin')){
@@ -118,6 +126,58 @@ if ((isset($_POST['username'])) ){
           }else{
       echo "<div class='form'><h3>Username/password is incorrect.</h3><br/>Click here to <a href='sign-in.php'>Login</a></div>";
       }
+  }
+}
+
+if (isset($_POST['order'])) {
+  if (isset($_REQUEST['email'])){
+    
+
+$FirstName = stripslashes($_REQUEST['FirstName']);
+$FirstName =  $mysqli -> real_escape_string($FirstName);
+
+$LastName = stripslashes($_REQUEST['LastName']);
+$LastName =  $mysqli -> real_escape_string($LastName);
+
+$CompanyName = stripslashes($_REQUEST['CompanyName']);
+$CompanyName =  $mysqli -> real_escape_string($CompanyName);
+
+$Country = stripslashes($_REQUEST['Country']);
+$Country =  $mysqli -> real_escape_string($Country);
+
+$StreetAddress = stripslashes($_REQUEST['StreetAddress']);
+$StreetAddress =  $mysqli -> real_escape_string($StreetAddress);
+
+$PostCode = stripslashes($_REQUEST['PostCode']);
+$PostCode =  $mysqli -> real_escape_string($PostCode);
+
+$TownCity = stripslashes($_REQUEST['TownCity']);
+$TownCity =  $mysqli -> real_escape_string($TownCity);
+
+$Phone = stripslashes($_REQUEST['Phone']);
+$Phone =  $mysqli -> real_escape_string($Phone);
+
+$email = stripslashes($_REQUEST['email']);
+$email =  $mysqli -> real_escape_string($email);
+
+$crnDate = date("Y-m-d H:i:s");
+//Checking is user existing in the database or not
+$sql = "SELECT email FROM users WHERE email='$email'";
+$result = $mysqli->query($sql)or die($mysqli ->error);
+$rows = mysqli_num_rows($result);
+      if($rows==1){
+        $sql = "UPDATE users SET FirstName='$FirstName', LastName='$LastName',
+         CompanyName='$CompanyName', 
+        Country='$Country', StreetAddress='$StreetAddress', PostCode='$PostCode', 
+        TownCity='$TownCity', Phone='$Phone', crnDate='$crnDate' WHERE email=$email";
+         $mysqli->query($sql);
+        header('Location: ../track.php');
+    }
+
+}else{
+  echo "<div class='form'><h3>You are registered successfully.</h3><br/>
+  Click here to <a href='login.php'>Login</a></div>";
+
   }
 }
 

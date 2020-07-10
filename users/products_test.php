@@ -29,12 +29,7 @@ require("php/connect_to_products.php");
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <title>E-come | Multi-Purpose HTML Template for Electronics Store</title>
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <link rel="shortcut icon" href="img/favicon.png" type="image/png">
-    <link rel="stylesheet" href="css/slick.css">
-    <link rel="stylesheet" href="css/slick-theme.css">
-    <link rel="stylesheet" href="css/owl.theme.default.min.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <?php include("styles.php") ?>
 </head>
 
 <body>
@@ -174,7 +169,7 @@ require("php/connect_to_products.php");
                                     </ul>
                                 </div>
                                 <div class="element hidden-xs hidden-sm">
-                                    <a href="#"><img src="img/icon-track.png" alt=""><span>Track Your Order</span></a>
+                                    <a href="track.php"><img src="img/icon-track.png" alt=""><span>Track Your Order</span></a>
                                 </div>
                                 <div class="element element-account hidden-md hidden-lg">
                                     <a href="#">My Account</a>
@@ -726,9 +721,9 @@ require("php/connect_to_products.php");
                                 <div class="ribbon-price v3 red"><span>- 30% </span></div>
                             </div>
                             <div class="product-info">
-                                <p class="product-cate text-center">Head phones</p>
+                                <p class="product-cate text-center"><?php echo $row['product_type']; ?></p>
                                 <div class="product-price thin-price v3">
-                                    <span class="red"><?php echo  $row['product_price']; ?></span>
+                                    <span class="red"><?php echo '$'.$row['product_price']; ?></span>
                                     <span class="old">$99.00</span>
                                 </div>
                                 <h3 class="product-title text-center v2"><a href="#"><?php echo  $row['product_name'];?></a></h3>
@@ -973,10 +968,10 @@ require("php/connect_to_products.php");
                                                     </a>
                                             </div>
                                             <div class="product-bottom-group">
-                                                <a href="#" class="btn-icon">
+                                                <a href="cart.php" class="btn-icon">
                                                         <span class="icon-bg icon-cart"></span>
                                                     </a>
-                                                <a href="#" class="btn-icon">
+                                                <a href="wishlist.php" class="btn-icon">
                                                         <span class="icon-bg icon-wishlist"></span>
                                                     </a>
                                                 <a href="#" class="btn-icon">
@@ -985,7 +980,7 @@ require("php/connect_to_products.php");
                                             </div>
                                         </div>
                                         <div class="product-button-group">
-                                            <a href="#" class="btn-icon">
+                                            <a href="cart.php" class="btn-icon">
                                                     <span class="icon-bg icon-cart"></span>
                                                 </a>
                                             <a href="#" class="btn-icon">
@@ -8781,12 +8776,8 @@ require("php/connect_to_products.php");
         <!-- /footer -->
     </div>
     <a href="#" class="btn-gradient scroll_top"><i class="ion-ios-arrow-up"></i></a>
-    <script src="js/jquery.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/slick.js"></script>
-    <script src="js/countdown.js"></script>
-    <script src="js/main.js"></script>
+    <?php include("scripts.php") ?>
+   
 </body>
 
 </html>
