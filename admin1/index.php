@@ -372,7 +372,7 @@
 
                                             <button class="btn" type="submit" style="background: #556B2F;" ><a href="student.php">Go to Users</a></button>
                                             <button class="btn" type="submit" style="background: #556B2F;" ><a href="products.php">Go to Products</a></button>
-                                            <button class="btn" type="submit" style="background: #556B2F;" ><a href="../users/products_test.php">Go to Products</a></button>
+                                            <button class="btn" type="submit" style="background: #556B2F;" ><a href="../users/products_test.php">Go to User Home</a></button>
                                         </div>     
                                     </div>
                                 </div>
