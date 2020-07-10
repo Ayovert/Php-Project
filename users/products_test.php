@@ -5811,7 +5811,7 @@ require("php/connect_to_products.php");
                                             <p class="product-cate">Computers &amp; Accessories</p>
                                             <h3 class="product-title"><a href="#">Cordless TrackMan Wheel</a></h3>
                                             <div class="product-bottom">
-                                                <div class="product-price"><span>$1,215.00</span></div>
+                                                 <div class="product-price"><span>$1,215.00</span></div>
                                                 <a href="#" class="btn-icon btn-view">
                                                 <span class="icon-bg icon-view"></span>
                                             </a>

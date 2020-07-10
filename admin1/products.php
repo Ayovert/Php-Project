@@ -119,6 +119,8 @@ include("connection.php");
         }
     ?>
 </table>
+<button class="btn" type="submit" style="background: #556B2F;" ><a href="student.php">Go to Users</a></button>
+<button class="btn" type="submit" style="background: #556B2F;" ><a href="index.php">home</a></button>
                 <div class="row">
                     <div class="col-lg-5">
                         <div class="auth-form">

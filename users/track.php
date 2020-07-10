@@ -597,7 +597,7 @@
                                         </button>
                                        <div class="collapse navbar-collapse" id="myNavbar">
                                             <ul class="nav navbar-nav js-menubar">
-                                                <li class="level1 active hassub"><a href="#">Home</a>
+                                                <li class="level1 active hassub"><a href="products_test.php">Home</a>
                                                     <span class="plus js-plus-icon"></span>
                                                     <div class="menu-level-1 ver2 dropdown-menu">
                                                        <div class="row">

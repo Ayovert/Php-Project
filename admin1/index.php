@@ -100,6 +100,7 @@
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="#">Log out</a>
                                     <a class="dropdown-item" href="products.php">Go to Products</a>
+                                    <a class="dropdown-item" href="student.php">Go to Users</a>
                                     
                                 </div>
                             </li>
@@ -368,6 +369,10 @@
     ?>
                                                 </tbody>
                                             </table> 
+
+                                            <button class="btn" type="submit" style="background: #556B2F;" ><a href="student.php">Go to Users</a></button>
+                                            <button class="btn" type="submit" style="background: #556B2F;" ><a href="products.php">Go to Products</a></button>
+                                            <button class="btn" type="submit" style="background: #556B2F;" ><a href="../users/products_test.php">Go to Products</a></button>
                                         </div>     
                                     </div>
                                 </div>

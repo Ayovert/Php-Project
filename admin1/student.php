@@ -118,6 +118,9 @@
 
     ?>
 </table>
+<button class="btn" type="submit" style="background: #556B2F;" ><a href="products.php">Go to Products</a></button>
+<button class="btn" type="submit" style="background: #556B2F;" ><a href="index.php">home</a></button>
+
                 <div class="row">
                     <div class="col-lg-5">
                         <div class="auth-form">
