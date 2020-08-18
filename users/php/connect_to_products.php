@@ -15,13 +15,14 @@ if ($mysqli->connect_error) {
 }
 echo "Connected successfully";
 
-$product_type = "";
+/*$product_type = "";
 $product_name = "";
+$code ="";
 $product_price= "";
 $product_status = "";
 $last_added = date("Y-m-d H:i:s");
 $product_id = 0;
-$update = false;
+$update = false;*/
 
 if (isset($_POST['save'])) {
   if(isset($_POST['product_type'])) {

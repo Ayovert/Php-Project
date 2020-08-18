@@ -1,3 +1,57 @@
+<?php
+session_start();
+
+if((isset($_SESSION['shopping_cart'])) || (!isset($_SESSION['shopping_cart'])) ){
+    if(isset($_POST['product_name'])) {
+        $product_name = $_POST['product_name'];
+    }
+
+    if(isset($_POST['code'])) {
+        $code = $_POST['code'];
+    }
+   
+    if(isset($_POST['product_price'])) {
+        $product_price = $_POST['product_price'];
+    }
+    if(isset($_POST['product_status'])) {
+        $product_status = $_POST['product_status'];
+    }
+
+}
+//print_r($_SESSION["shopping_cart"]); 
+$status ="";
+
+if (isset($_POST['action']) && $_POST['action']=="remove"){
+    if(!empty($_SESSION["shopping_cart"])) {
+        foreach($_SESSION["shopping_cart"] as $key => $value) {
+            if($_POST["code"] == $key){
+            unset($_SESSION["shopping_cart"][$key]);
+            $status = "<div class='box' style='color:red;'>
+            Product is removed from your cart!</div>";
+            }
+            if(empty($_SESSION["shopping_cart"]))
+            unset($_SESSION["shopping_cart"]);
+                }		
+            }
+    }
+
+
+    if (isset($_POST['action']) && $_POST['action']=="change"){
+        foreach($_SESSION["shopping_cart"] as &$value){
+          if($value['code'] === $_POST["code"]){
+              $value['quantity'] = $_POST["quantity"];
+              break; // Stop the loop after we've found the product
+          }
+      }
+            
+      }
+
+echo $status;
+
+//print_r($_SESSION["shopping_cart"]);
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -761,6 +815,10 @@
                 </ul>
                 <div class="row">
                     <div class="col-md-8 col-sm-12 col-xs-12">
+                    <?php
+                               if(isset($_SESSION["shopping_cart"])){
+                                   $total_price = 0;
+                               ?>	
                         <div class="shopping-cart bd-7">
                             <div class="cmt-title text-center abs">
                                 <h1 class="page-title v2">Cart</h1>
@@ -769,7 +827,56 @@
                                 <table class="table cart-table">
                                     
                                     <tbody>
+                                   
+                                       <?php
+                                       foreach($_SESSION["shopping_cart"] as $product){
+                                          ?>
                                         <tr class="item_cart">
+                                            <td class="product-name flex align-center">
+                                            <form  method='post' action=''>
+                                              <input type='hidden' name='code' value="<?php echo $product["code"]; ?>" />
+                                              <input type='hidden' name='action' value="remove" />
+                                                    <button  type="button" class="btn-del"><i class="ion-ios-close-empty"></i> </button>
+                                            </form>
+                                                <div class="product-img">
+                                                    <img src="img/product/<?php echo $product["code"] ?>.jpg" alt="Futurelife">
+                                                </div>
+                                                <div class="product-info">
+                                                    <a href="#" title=""><?php echo $product["product_name"]?> </a>
+                                                </div>
+                                            </td>
+                                            
+                                            <td class="bcart-quantity single-product-detail">
+                                                <div class="single-product-info">
+                                                    <form method='post' action='' id="k">
+                                                    <input type='hidden' name='code' value="<?php echo $product["code"]; ?>" />
+                                                  
+                                              <input type='hidden' name='action' value="change" />
+                                                    <div class="e-quantity">
+                                                    
+                                                     <input type="number" step="1" min="1" max="999"
+                                                       name="quantity" value="<?php echo $product["quantity"]?>" title="Qty"
+                                                        class="qty input-text js-number" size="4" id="myInput">
+
+                                                      <div class="tc pa">
+                                                         <button type="button" class="js-plus quantity-right-plus"><i class="fa fa-caret-up"></i></button>
+                                                         <button type="button" class="js-minus quantity-left-minus"><i class="fa fa-caret-down"></i></button>
+                                                      </div>
+                                                   </div>
+                                               </form>
+                                                </div>
+                                            </td>
+                                            <td class="total-price">
+                                                <p class="price" ><?php echo $product["product_price"]?></p>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                                
+                                                    $total_price += ((float)($product["product_price"]) * $product["quantity"]);
+
+                                                        }   ?>
+
+                                        <!--<tr class="item_cart">
                                             <td class="product-name flex align-center">
                                                 <a href="#" class="btn-del"><i class="ion-ios-close-empty"></i></a>
                                                 <div class="product-img">
@@ -821,34 +928,7 @@
                                             <td class="total-price">
                                                 <p class="price">$1,215.00</p>
                                             </td>
-                                        </tr>
-
-                                        <tr class="item_cart">
-                                            <td class="product-name flex align-center">
-                                                <a href="#" class="btn-del"><i class="ion-ios-close-empty"></i></a>
-                                                <div class="product-img">
-                                                    <img src="img/product/sound2.jpg" alt="Futurelife">
-                                                </div>
-                                                <div class="product-info">
-                                                    <a href="#" title="">Harman Kardon Onyx Studio </a>
-                                                </div>
-                                            </td>
-                                            
-                                            <td class="bcart-quantity single-product-detail">
-                                                <div class="single-product-info">
-                                                    <div class="e-quantity">
-                                                      <input type="number" step="1" min="1" max="999" name="quantity" value="1" title="Qty" class="qty input-text js-number" size="4">
-                                                      <div class="tc pa">
-                                                         <a class="js-plus quantity-right-plus"><i class="fa fa-caret-up"></i></a>
-                                                         <a class="js-minus quantity-left-minus"><i class="fa fa-caret-down"></i></a>
-                                                      </div>
-                                                   </div>
-                                                </div>
-                                            </td>
-                                            <td class="total-price">
-                                                <p class="price">$1,215.00</p>
-                                            </td>
-                                        </tr>
+                                        </tr> -->
                                     </tbody>
                                 </table>
                             </div>
@@ -864,10 +944,15 @@
                                         </button>
                                     </form>
                                 
-                                <a href="#" class="btn btn-update">Update cart</a> 
+                                <a href="#" onclick="$('#k').submit()" class="btn btn-update">Update cart</a> 
                             </div>
             
                         </div>
+                        <?php 
+                                              }else{
+                                              	echo "<h3>Your cart is empty!</h3>";
+                                              	}
+                                              ?>
                     </div>
                     <div class="col-md-4 col-sm-12 col-xs-12">
                         <div class="cart-total bd-7">
@@ -879,7 +964,7 @@
                                     <tbody>
                                         <tr class="cart-subtotal">
                                             <th>Subtotal</th>
-                                            <td>$ 1.215.00</td>
+                                            <td><?php echo $total_price?></td>
                                         </tr>
                                         <tr class="cart-shipping">
                                             <th>Shipping</th>
@@ -899,11 +984,12 @@
                                         </tr>
                                         <tr class="order-total">
                                             <th>Total</th>
-                                            <td>$ 1.215.00</td>
+                                            <td scope="col"> $  <?php echo $total_price + 12?></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
+                            
                             <div class="cart-total-bottom">
                                 <a href="checkout.php" class="btn-gradient btn-checkout">Proceed to checkout</a>
                             </div>
@@ -1165,6 +1251,7 @@
         <!-- /footer -->
     </div>
     <?php include("scripts.php") ?>
+    
     
 </body>
 

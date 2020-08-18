@@ -326,19 +326,42 @@
                                             <table class="table table-striped">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">ID</th>
-                                                        <th scope="col">Name</th>
-                                                        <th scope="col">Price</th>
-                                                        <th scope="col">Status</th>
+                                                    <th scope='col'>Product ID</th>
+                                                    <th scope='col'>Type</th>
+                                                    <th scope='col'>Name</th>
+                                                    <th scope='col'>Size</th>
+                                                    <th scope='col'>Description</th>
+                                                    <th scope='col'>Price</th>
+                                                    <th scope='col'>Status</th>
+                                                    <th scope='col'>Date</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                 <?php while ($row=mysqli_fetch_array($result)) { ?>
                                                     <tr>
-                                                        <td><?php echo $row[0]; ?></td>
-                                                        <td><?php echo $row[1]; ?></td>
-                                                        <td><?php echo $row[2]; ?></td>
-                                                        <td><span class="badge badge-success"><?php echo $row[3]; ?></span></td>
+                                                    <th scope='col'>
+                                                       <?php echo $row[0]; ?>
+                                                   </th>
+                                                   <td>
+                                                       <?php echo $row[1]; ?>
+                                                   </td>
+                                                   <td>
+                                                       <?php echo $row[2]; ?>
+                                                   </td>
+                                                   <td>
+                                                       <?php echo $row[3]; ?>
+                                                   </td>
+                                                   <td>
+                                                       <?php echo $row[4]; ?>
+                                                   </td>
+                                                   <td>
+                                                       <?php echo $row[5]; ?>
+                                                   </td>
+                                                   <td>
+                                                       <?php echo $row[6]; ?>
+                                                   </td>
+                                                  
+                                                        <td><span class="badge badge-success"><?php echo $row[7]; ?></span></td>
                                                     </tr>
                                                    <!-- <tr>
                                                         <td>0759</td>
@@ -364,9 +387,9 @@
                                                         <td>$29, 999</td>
                                                         <td><span class="badge badge-secondary">Canceled</span></td>
                                                     </tr> -->
-                                                    <?php
-        }
-    ?>
+                                                  <?php
+                                                     }
+                                                 ?>
                                                 </tbody>
                                             </table> 
 

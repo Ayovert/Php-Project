@@ -31,6 +31,10 @@ $crnDate = date("Y-m-d H:i:s");
 $id = 0;
 $update = false;
 
+
+
+//...
+
 if (isset($_POST['save'])) {
     if(isset($_POST['email'])) {
         $email = $_POST['email'];
@@ -112,7 +116,7 @@ if ((isset($_POST['username'])) ){
   $password = $mysqli -> real_escape_string($password);
   
 //Checking is user existing in the database or not
-      $sql = "SELECT * FROM users WHERE username='$username' and password='".md5($password)."'";
+      $sql = "SELECT * FROM users WHERE username='$username' or email = '$username' and password='".md5($password)."'";
   $result = $mysqli->query($sql)or die($mysqli ->error);
   $rows = mysqli_num_rows($result);
       if($rows==1){
@@ -169,7 +173,7 @@ $rows = mysqli_num_rows($result);
         $sql = "UPDATE users SET FirstName='$FirstName', LastName='$LastName',
          CompanyName='$CompanyName', 
         Country='$Country', StreetAddress='$StreetAddress', PostCode='$PostCode', 
-        TownCity='$TownCity', Phone='$Phone', crnDate='$crnDate' WHERE email=$email";
+        TownCity='$TownCity', Phone='$Phone', crnDate='$crnDate' WHERE email='$email'";
          $mysqli->query($sql);
         header('Location: ../track.php');
     }
@@ -179,6 +183,15 @@ $rows = mysqli_num_rows($result);
   Click here to <a href='login.php'>Login</a></div>";
 
   }
+}
+
+function isLoggedIn()
+{
+	if (isset($_SESSION['username'])) {
+		return true;
+	}else{
+		return false;
+	}
 }
 
 ?> 

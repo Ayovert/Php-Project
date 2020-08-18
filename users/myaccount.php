@@ -769,7 +769,7 @@
                             <p>Sign in to your account</p>
                             <form class="login-form" method="post" action="#"> 
                                   <div class="form-group">
-                                    <label>Username or email address <span class="f-red">*</span></label>
+                                    <label>Username or Email address <span class="f-red">*</span></label>
                                       <input type="text" id="author" class="form-control bdr" name="username" value="" required>
                                       <label>Password <span class="f-red">*</span></label>
                                       <input type="password" id="email" class="form-control bdr" name="password" value="" required>

@@ -4,3 +4,4 @@
     <link rel="stylesheet" href="css/slick-theme.css">
     <link rel="stylesheet" href="css/owl.theme.default.min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/custom.css">

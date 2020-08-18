@@ -11,8 +11,9 @@
         
         <!-- Title -->
         <title>Connect - Responsive Admin Dashboard Template</title>
+        <?php include('styles.php'); ?>
 
-        <!-- Styles -->
+        <!-- Styles -
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
@@ -20,10 +21,10 @@
         <link href="../../assets/plugins/font-awesome/css/all.min.css" rel="stylesheet">
 
       
-        <!-- Theme Styles -->
+        Theme Styles 
         <link href="../../assets/css/connect.min.css" rel="stylesheet">
         <link href="../../assets/css/dark_theme.css" rel="stylesheet">
-        <link href="../../assets/css/custom.css" rel="stylesheet">
+        <link href="../../assets/css/custom.css" rel="stylesheet">-->
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -83,13 +84,13 @@
                 </div>
             </div>
         </div>
-        
-        <!-- Javascripts -->
+        <?php include('events.php'); ?>
+        <!-- Javascripts -
         <script src="../../assets/plugins/jquery/jquery-3.4.1.min.js"></script>
         <script src="../../assets/plugins/bootstrap/popper.min.js"></script>
         <script src="../../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
         <script src="../../assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>
         <script src="../../assets/js/connect.min.js"></script>
-        <script src="../../assets/js/custom.js"></script>
+        <script src="../../assets/js/custom.js"></script>-->
     </body>
 </html>

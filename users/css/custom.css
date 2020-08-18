@@ -1,0 +1,35 @@
+.item-user {
+position: relative;
+  width: 100%;
+  display: -webkit-box;
+  /* OLD - iOS 6-, Safari 3.1-6 */
+  /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;
+  /* TWEENER - IE 10 */
+  /* NEW - Chrome */
+  display: flex;
+  /* NEW, Spec - Opera 12.1, Firefox 20+ */
+  padding-bottom: 15px;
+  padding-top: 15px;
+  border-bottom: 1px solid #ebebeb; 
+}
+
+.product-item {
+  display: inline-block !important; }
+
+
+/*.tab-content > .tab-pane {
+  display: flex !important;
+}*/
+
+.product-img {
+  height: 50% !important;
+}
+.product-inner {
+  height: 80% !important;
+}
+
+.php-image {
+  height: 100% ;
+  width: 100% ;
+}

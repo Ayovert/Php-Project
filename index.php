@@ -1,3 +1,3 @@
 <?php 
-header("Location:users/myaccount.php")
+header("Location:admin1/sign-in.php")
 ?>

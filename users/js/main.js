@@ -136,8 +136,8 @@ jQuery(document).ready(function($) {
     });
     // SHOPPING CART Quantity increment buttons
 
-    var quantitiy = 0;
-    $('.js-plus').on("click", function(e) {
+  /* $('.js-plus').on("click", function(e) {
+        var quantity = 0;
 
         // Stop acting like a button
         e.preventDefault();
@@ -147,8 +147,6 @@ jQuery(document).ready(function($) {
         // If is not undefined
 
         $('.js-number').val(quantity + 1);
-
-
         // Increment    
     });
 
@@ -163,8 +161,10 @@ jQuery(document).ready(function($) {
         // Increment
         if (quantity > 0) {
             $('.js-number').val(quantity - 1);
+            
         }
-    });
+    });*/
+
     // Js product single slider
     $('.js-click-product').slick({
         slidesToShow: 4,

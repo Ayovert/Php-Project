@@ -1,5 +1,4 @@
 <?php
-
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -18,6 +17,9 @@ echo "Connected successfully";
 // initialize variables
 $product_type = "";
 $product_name = "";
+$code = "";
+$product_size = "";
+$product_desc = "";
 $product_price= "";
 $product_status = "";
 $last_added = date("Y-m-d H:i:s");
@@ -32,6 +34,18 @@ if (isset($_POST['save'])) {
     if(isset($_POST['product_name'])) {
         $product_name = $_POST['product_name'];
     }
+
+    if(isset($_POST['code'])) {
+      $code = $_POST['code'];
+  }
+
+    
+    if(isset($_POST['product_size'])) {
+      $product_size = $_POST['product_size'];
+  }
+    if(isset($_POST['product_desc'])) {
+      $product_desc = $_POST['product_desc'];
+  }
     if(isset($_POST['product_price'])) {
         $product_price = $_POST['product_price'];
     }
@@ -42,8 +56,8 @@ if (isset($_POST['save'])) {
      $last_added = date("Y-m-d H:i:s");
   
 
-      $sql = "INSERT INTO products ( product_type, product_name, product_price, product_status, last_added) 
-      VALUES ('$product_type','$product_name','$product_price', '$product_status', '$last_added')"; 
+      $sql = "INSERT INTO products ( product_type, product_name, code, product_size, product_desc, product_price, product_status, last_added) 
+      VALUES ('$product_type','$product_name', '$code','$product_size', '$product_desc','$product_price', '$product_status', '$last_added')"; 
  $_SESSION['message'] = "Address saved"; 
  $mysqli->query($sql);
   header('Location: products.php');
@@ -55,25 +69,49 @@ if (isset($_POST['update'])) {
   $product_id = $_POST['product_id'];
   $product_type = $_POST['product_type'];
   $product_name = $_POST['product_name'];
+  $code = $_POST['code'];
+  $product_size = $_POST['product_size'];
+  $product_desc = $_POST['product_desc'];
   $product_price = $_POST['product_price'];
   $product_status = $_POST['product_status'];
   $last_added = date("Y-m-d H:i:s");
   
 
-	$sql = "UPDATE products SET product_type='$product_type', product_name='$product_name', product_price='$product_price', 
-    product_status='$product_status',last_added='$last_added' WHERE product_id=$product_id";
+	$sql = "UPDATE products SET product_type='$product_type', product_name='$product_name', 
+  code='$code', product_size='$product_size', 
+  product_desc='$product_desc', product_price='$product_price', 
+    product_status='$product_status', last_added='$last_added' WHERE product_id = $product_id";
   $_SESSION['message'] = "Address updated!"; 
   $mysqli->query($sql);
   header('location: products.php');
  }
+
+ 
+//$mysqli->close();
  
  if (isset($_GET['del'])) {
     $product_id = $_GET['del'];
     $sql= "DELETE FROM products WHERE product_id=$product_id";
     $_SESSION['message'] = "Address deleted!"; 
     $mysqli->query($sql);
+
+    $sql ="ALTER TABLE products AUTO_INCREMENT=$product_id";
+    $mysqli->query($sql);
+
     header('location: products.php');
   }
+
+  if (isset($_GET['track'])) {
+    $product_id = $_GET['track'];
+    $sql= "INSERT INTO tracking_order (product_name, code, product_size, product_desc, lastDate)
+    SELECT product_name, code, product_size, product_desc, last_added FROM products WHERE product_id=$product_id";
+    $_SESSION['message'] = "Table Created!"; 
+    $mysqli->query($sql);
+    header('location: products_track.php');
+  }
+  
+
+  
 
   if (isset($_POST['submit'])) {
   if (isset($_REQUEST['product_name'])){
@@ -81,6 +119,10 @@ if (isset($_POST['update'])) {
     $product_type =  $mysqli -> real_escape_string($product_type);
     $product_name = stripslashes($_REQUEST['product_name']);
 $product_name =  $mysqli -> real_escape_string($product_name);
+$product_size = stripslashes($_REQUEST['product_size']);
+$product_size =  $mysqli -> real_escape_string($product_size);
+$product_desc = stripslashes($_REQUEST['product_desc']);
+$product_desc =  $mysqli -> real_escape_string($product_desc);
 $product_price = stripslashes($_REQUEST['product_price']); // removes backslashes
 $product_price = $mysqli -> real_escape_string($product_price); //escapes special characters in a string
 $product_status = stripslashes($_REQUEST['product_status']);
@@ -122,5 +164,6 @@ if (isset($_POST['username'])){
       }
   }
 }
+
 //$mysqli->close();
 ?> 

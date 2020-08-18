@@ -231,7 +231,7 @@ echo $status;
                                     <a class="hidden-xs hidden-sm" href=""><img src="img/icon-user.png" alt=""></a>
                                     <a href="#"><img src="img/icon-heart.png" alt=""></a>
                                     <div class="cart">
-                                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="label5">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="label5">
                                             <img src="img/icon-cart.png" alt="">
                                             <?php
                                 if(!empty($_SESSION["shopping_cart"])) {
@@ -254,7 +254,7 @@ echo $status;
                                      
                                                 <li class="item-cart">
                                                     <div class="product-img-wrap">
-                                                        <a href=""><img src="<?php echo $product["code"]; ?>.jpg" alt="" class="img-reponsive"></a>
+                                                        <a href="#"><img src="<?php echo $product["code"]; ?>.jpg" alt="" class="img-reponsive"></a>
                                                     </div>
                                                     <div class="product-details">
                                                         <div class="inner-left">
@@ -265,10 +265,10 @@ echo $status;
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <form id="removeForm" method='post' action='' onsubmit="removeForm()">
-                                              <input type='hidden' id="code" name='code' value="<?php echo $product["code"]; ?>" />
-                                              <input type='hidden' id="action" name='action' value="remove" />
-                                                    <button type="button" onclick="this.form.submit()" class="e-del ion-ios-close-empty"></button>
+                                                    <form id="removeForm" method='post' action=''>
+                                              <input type='hidden' name='code' value="<?php echo $product["code"]; ?>" />
+                                              <input type='hidden' name='action' value="remove" />
+                                                    <button type="submit" class="e-del"><i class="ion-ios-close-empty"></i></button>
                                                     </form>
                                                 </li>
                                                 <?php
@@ -298,7 +298,7 @@ echo $status;
                                                 </div>
 
                                                 <div class="button-cart">
-                                                    <a href="cart.php" class="cart-btn btn-viewcart">View Cart</a>
+                                                    <a href="#" class="cart-btn btn-viewcart">View Cart</a>
                                                     <a href="#" class="cart-btn e-checkout btn-gradient">Checkout</a>
                                                 </div>
                                             </div>
@@ -906,10 +906,10 @@ $result =$mysqli->query($sql); ?>
 
 
                         <?php while($row = mysqli_fetch_array($result)){ ?>
-                            <form method="post" action="" id="cartForm" onsubmit="cartForm(e);e.preventDefault();">
-                            <input type='hidden' id="code" name='code' value="<?php echo $row['code']; ?>" />
-                            <input type='hidden' id="name" name='product_name' value="<?php echo $row['product_name']; ?>" />
-                            <input type='hidden'  id="price" name='product_price' value="<?php echo $row['product_price']; ?>"/>
+                            <form method="post" id="cartButton" action="">
+                            <input type='hidden' name='code' value="<?php echo $row['code']; ?>" />
+                            <input type='hidden' name='product_name' value="<?php echo $row['product_name']; ?>" />
+                            <input type='hidden' name='product_price' value="<?php echo $row['product_price']; ?>"/>
                             <div class="product-item">
                             
                                 <div class="pd-bd product-inner">
@@ -960,7 +960,11 @@ $result =$mysqli->query($sql); ?>
                                             </div>
                                         </div>
                                         <div class="product-button-group">
-                                            <button type="button" onclick="this.form.submit()" class="icon-bg icon-cart"></button>
+                                            <button type="submit" class="btn btn-icon">
+                                                
+                                                    <span class="icon-bg icon-cart"></span>
+                                            
+                                                </button>
                                             <a href="#" class="btn-icon">
                                                     <span class="icon-bg icon-wishlist"></span>
                                                 </a>
