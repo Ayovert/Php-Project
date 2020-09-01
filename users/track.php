@@ -1,3 +1,17 @@
+<?php
+session_start();
+include("../admin1/connection.php");
+
+if (!isLoggedIn()) {
+	$_SESSION['msg'] = "You must log in first";
+    header('location: myaccount.php');
+
+}
+
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -753,6 +767,73 @@
         <!-- /header -->
         <!--content-->
         <div class="container container-240">
+        <table class="table table-striped" width="100%" border="1">
+                        <tr>
+                            <th scope='col'>Product ID</th>
+                            <th scope='col'>Type</th>
+                            <th scope='col'>Name</th>
+                            <th scope='col'>Size</th>
+                            <th scope='col'>Description</th>
+                            <th scope='col'>Price</th>
+                            <th scope='col'>Status</th>
+                            <th scope='col'>Date</th>
+                
+                
+                        </tr>
+                <?php 
+                if(isset($_POST['email'])){
+    $email = $_POST['email'];
+    $sql = "SELECT * FROM users WHERE email='$email'";
+    $result = $mysqli->query($sql)or die($mysqli ->error);
+    $rows = mysqli_num_rows($result);
+        if($rows==1){
+    $valueToSearch = $_POST['valueToSearch'];
+    // search in all table columns
+    // using concat mysql function
+    $sql = "SELECT * FROM products WHERE 
+    product_id LIKE '%".$valueToSearch."%'";
+    $result = $mysqli->query($sql);
+        }
+ ?>
+                        <!--<table width = "100%" border = "1" cellspacing = "1" cellpadding = "1"> -->
+                        <?php while ($row = mysqli_fetch_array($result)) { ?>
+                            <tr>
+                                <th scope='col'>
+                                    <?php echo $row['product_id']; ?>
+                                </th>
+                                <td>
+                                    <?php echo $row['product_type']; ?>
+                                </td>
+                                <td>
+                                    <?php echo $row['product_name']; ?>
+                                </td>
+                                <td>
+                                    <?php echo $row['product_size']; ?>
+                                </td>
+                                <td>
+                                    <?php echo $row['product_desc']; ?>
+                                </td>
+                                <td>
+                                    <?php echo $row['product_price']; ?>
+                                </td>
+                                <td>
+                                    <?php echo $row['product_status']; ?>
+                                </td>
+                                <td>
+                                    <?php echo $row['last_added']; ?>
+                                </td>
+                
+                
+                            </tr>
+                    <?php
+                        }
+                     }
+                        else {
+                            $sql = "SELECT * FROM products";
+                            $result = $mysqli->query($sql);
+                        }
+                    ?>
+                  </table>
             
             <div class="myaccount trackorder">
                 <ul class="breadcrumb v3">
@@ -769,9 +850,9 @@
                             <form class="login-form" method="post" action="#"> 
                                   <div class="form-group">
                                     <label>Order ID</label>
-                                      <input type="text" id="order" class="form-control bdr" name="comment[order]" value="" placeholder="Found in your order confirmation email.">
+                                      <input type="text" id="order" class="form-control bdr" name="valueToSearch" value="" placeholder="Found in your order confirmation email.">
                                       <label>Billing email</label>
-                                      <input type="email" id="email" class="form-control bdr" name="comment[email]" value="" placeholder="Email you used during checkout.">
+                                      <input type="email" id="email" class="form-control bdr" name="email" value="" placeholder="Email you used during checkout.">
                                   </div>
                                   <div class="flex justify-center">
                                       <button type="submit" class="btn btn-submit btn-gradient">

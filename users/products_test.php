@@ -1,6 +1,8 @@
 <?php
 session_start();
 include("../admin1/connection.php");
+
+
 if((isset($_SESSION['shopping_cart'])) || (!isset($_SESSION['shopping_cart'])) ){
     if(isset($_POST['product_name'])) {
         $product_name = $_POST['product_name'];
@@ -142,6 +144,11 @@ echo $status;
             <!-- end of topbar -->
             <div class="header-center">
                 <div class="container container-240">
+                <button type="button" class="icon-mobile e-icon-menu icon-pushmenu js-push-menu">
+                                            <span class="navbar-toggler-bar"></span>
+                                            <span class="navbar-toggler-bar"></span>
+                                            <span class="navbar-toggler-bar"></span>
+                                        </button>
                     <div class="row flex">
                         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 v-center header-logo">
                             <a href="#"><img src="img/logo.png" alt="" class="img-reponsive"></a>
@@ -654,8 +661,9 @@ echo $status;
                     <h1>Flash Deals</h1>
                 </div>
                 <div class="owl-carousel owl-theme owl-cate js-owl-cate2">
+
                 <?php
-//include('connection.php');
+    //include('connection.php');
     if (isset($_POST['product_id'])) {
         $sql = "DELETE FROM products WHERE product_id=$product_id";
         $result = $mysqli->query($sql);
@@ -906,7 +914,7 @@ $result =$mysqli->query($sql); ?>
 
 
                         <?php while($row = mysqli_fetch_array($result)){ ?>
-                            <form method="post" action="" id="cartForm" onsubmit="cartForm(e);e.preventDefault();">
+                            <form method="post" action="" id="cartForm" onsubmit="cartForm()">
                             <input type='hidden' id="code" name='code' value="<?php echo $row['code']; ?>" />
                             <input type='hidden' id="name" name='product_name' value="<?php echo $row['product_name']; ?>" />
                             <input type='hidden'  id="price" name='product_price' value="<?php echo $row['product_price']; ?>"/>

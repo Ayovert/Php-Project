@@ -1,6 +1,11 @@
 <?php
 session_start();
+include("../admin1/connection.php");
 
+if (!isLoggedIn()) {
+	$_SESSION['msg'] = "You must log in first";
+	header('location: myaccount.php');
+}
 if((isset($_SESSION['shopping_cart'])) || (!isset($_SESSION['shopping_cart'])) ){
     if(isset($_POST['product_name'])) {
         $product_name = $_POST['product_name'];
@@ -69,190 +74,17 @@ echo $status;
 </head>
 
 <body>
-    <!-- push menu-->
-    <div class="pushmenu menu-home5">
-        <div class="menu-push">
-            <span class="close-left js-close"><i class="icon-close f-20"></i></span>
-            <div class="clearfix"></div>
-            <form role="search" method="get" id="searchform" class="searchform" action="/search">
-               <div>
-                  <label class="screen-reader-text" for="q"></label>
-                  <input type="text" placeholder="Search for products" value="" name="q" id="q" autocomplete="off"><input type="hidden" name="type" value="product"><button type="submit" id="searchsubmit"><i class="ion-ios-search-strong"></i></button>
-               </div>
-            </form>
-            <ul class="nav-home5 js-menubar">
-                <li class="level1 active dropdown"><a href="#">Home</a>
-                    <span class="icon-sub-menu"></span>
-                    <ul class="menu-level1 js-open-menu">
-                        <li class="level2"><a href="home1.html" title="">Demo 1</a></li>
-                        <li class="level2"><a href="home2.html" title="">Demo 2</a></li>
-                        <li class="level2"><a href="home3.html" title="">Demo 3</a></li>
-                        <li class="level2"><a href="home4.html" title="">Demo 4</a></li>
-                        <li class="level2"><a href="home5.html" title="">Demo 5</a></li>
-                        <li class="level2"><a href="#" title="">Demo 6</a></li>
-                        
-                    </ul>
-                </li>
-                <li class="level1 active dropdown"><a href="#">Shop</a>
-                    <span class="icon-sub-menu"></span>
-                    <div class="menu-level1 js-open-menu">
-                        <ul class="level1">
-                            <li class="level2">
-                                <a href="#">Shop Layout</a>
-                                <ul class="menu-level-2">
-                                    <li class="level3"><a href="shop_full.html" title="">shop Full Width</a></li>
-                                    <li class="level3"><a href="shopgrid_v1.html" title="">Shop Grid v.1</a></li>
-                                    <li class="level3"><a href="shopgrid_v2.html" title="">Shop Grid v.2</a></li>
-                                    <li class="level3"><a href="shoplist.html" title="">Shop List</a></li>
-                                    <li class="level3"><a href="shopleft_sidebar.html" title="">Shop Left Sidebar</a></li>
-                                    <li class="level3"><a href="shopright_sidebar.html" title="">Shop Right Sidebar</a></li>
-                                </ul>
-                            </li>
-                            <li class="level2">
-                                <a href="#">Categories</a>
-                                <ul class="menu-level-2">
-                                    <li class="level3"><a href="cat_fullwidth.html" title="">Categories Full Width</a></li>
-                                    <li class="level3"><a href="cat_left_sidebar.html" title="">Categories Left Sidebar</a></li>
-                                    <li class="level3"><a href="cat_right_sidebar.html" title="">Categories Right Sidebar</a></li>
-                                </ul>
-                            </li>
-                            <li class="level2">
-                                <a href="#">Single Product Type</a>
-                                <ul class="menu-level-2">
-                                    <li class="level3"><a href="bundle.html" title="">Bundle</a></li>
-                                    <li class="level3"><a href="pin_product.html" title="">Pin Product</a></li>
-                                    <li class="level3"><a href="360degree.html" title="">360 Degree</a></li>
-                                    <li class="level3"><a href="feature_video.html" title="">Featued video</a></li>
-                                    <li class="level3"><a href="simple.html">Simple</a></li>
-                                    <li class="level3"><a href="variable.html">Variable</a></li>
-                                    <li class="level3"><a href="affilate.html">External / Affiliate</a></li>
-                                    <li class="level3"><a href="grouped.html">Grouped</a></li>
-                                    <li class="level3"><a href="outofstock.html">Out of stock</a></li>
-                                    <li class="level3"><a href="onsale.html">On sale</a></li>
-                                </ul>
-                            </li>
-                            <li class="level2">
-                                <a href="#">Single Product Layout</a>
-                                <ul class="menu-level-2">
-                                    <li class="level3"><a href="product_extended.html" title="">Product Extended</a></li>
-                                    <li class="level3"><a href="product_sidebar.html" title="">Product Left Sidebar</a></li>
-                                    <li class="level3"><a href="product_right_sidebar.html" title="">Product Right Sideba</a></li>
-                                </ul>
-                            </li>
-                            <li class="level2">
-                                <a href="#">Other Pages</a>
-                                <ul class="menu-level-2">
-                                    <li class="level3"><a href="shop_full.html" title="">Shop</a></li>
-                                    <li class="level3"><a href="cart.html" title="">Cart</a></li>
-                                    <li class="level3"><a href="wishlist.html" title="">My Wishlist</a></li>
-                                    <li class="level3"><a href="checkout.html" title="">Checkout</a></li>
-                                    <li class="level3"><a href="myaccount.html" title="">My Account</a></li>
-                                    <li class="level3"><a href="track.html" title="">Track Your Order</a></li>
-                                    <li class="level3"><a href="quickview.html" title="">Quick View</a></li>
-
-                                </ul>
-                            </li>
-                        </ul>
-                        <div class="clearfix"></div>
-                    </div>
-                </li>
-                <li class="level1 active dropdown"><a href="#">Mega Menu</a></li>
-                <li class="level1">
-                    <a href="#">Pages</a>
-                    <span class="icon-sub-menu"></span>
-                    <ul class="menu-level1 js-open-menu">
-                         <li class="level2"><a href="aboutus.html" title="About Us ">About Us </a></li>
-                        <li class="level2"><a href="contactus.html" title="Contact">Contact</a></li>
-                        <li class="level2"><a href="faq.html" title="FAQs">FAQs</a></li>
-                        <li class="level2"><a href="404.html" title="404">404</a></li>
-                        <li class="level2"><a href="commingsoon.html" title="Coming Soon">Coming Soon</a></li>
-                    </ul>
-                </li>
-                <li class="level1">
-                    <a href="#">Blog</a>
-                    <span class="icon-sub-menu"></span>
-                    <ul class="menu-level1 js-open-menu">
-                        <li class="level2"><a href="blog-standar.html" title="Blog Standar">Blog Standar</a></li>
-                        <li class="level2"><a href="blog_grid.html" title="Blog Gird">Blog Gird</a></li>
-                        <li class="level2"><a href="blog-standar.html" title="Blog Sidebar">Blog Sidebar</a></li>
-                        <li class="level2"><a href="blog-single-post.html" title="Blog Single Post">Blog Single Post</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
+     <!-- push menu-->
+     <?php include("php/pushmenu.php")?>
     <!-- end push menu-->
     <div class="wrappage">
         <header id="header" class="header-v5">
            <div class="header-top-banner">
                <a href="#"><img src="img/banner-top.jpg" alt="" class="img-reponsive"></a>
            </div>
-           <div class="topbar">
-               <div class="container container-240">
-                   <div class="row flex">
-                       <div class="col-md-6 col-sm-6 col-xs-4 flex-left">
-                           <div class="topbar-left">
-                               <div class="element element-store hidden-xs hidden-sm">
-                                    <a id="label1" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                    <img src="img/icon-map.png" alt="">
-                                      <span>Store Location</span>
-                                      
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="label1">
-                                        <li><a href="#">New York</a></li>
-                                        <li><a href="#">California</a></li>
-                                        <li><a href="#">Los Angeles</a></li>
-                                    </ul>
-                                </div>
-                                <div class="element hidden-xs hidden-sm">
-                                    <a href="#"><img src="img/icon-track.png" alt=""><span>Track Your Order</span></a>
-                                </div>
-                                <div class="element element-account hidden-md hidden-lg">
-                                    <a href="#">My Account</a>
-                                </div>
-                            </div>
-                       </div>
-                       <div class="col-md-6 col-sm-6 col-xs-8 flex-right">
-                            <div class="topbar-right">
-                               <div class="element hidden-xs hidden-sm">
-                                    <a href="#">Buyer Protection </a>
-                                </div>
-                                <div class="element hidden-xs hidden-sm">
-                                    <a href="#">Help</a>
-                                </div>
-                                <div class="element hidden-xs hidden-sm">
-                                    <a href="#"><img src="img/icon-phone.png" alt=""><span>Save big on our app!</span></a>
-                                </div>
-                                <div class="element element-leaguage">
-                                    <a id="label2" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                        <img src="img/icon-l.png" alt="">
-                                      <span>English</span>
-                                      <span class="ion-ios-arrow-down f-10 e-arrow"></span>
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="label2">
-                                        <li><a href="#">EN</a></li>
-                                        <li><a href="#">DE</a></li>
-                                        <li><a href="#">FR</a></li>
-                                    </ul>
-                                </div>
-                                <div class="element element-currency">
-                                    <a id="label3" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                    
-                                      <span>USD</span>
-                                      <span class="ion-ios-arrow-down f-10 e-arrow"></span>
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="label3">
-                                        <li><a href="#">USD</a></li>
-                                        <li><a href="#">AUD</a></li>
-                                        <li><a href="#">EUR</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                       </div>
-                        
-                   </div>
-               </div>
-           </div>
+           <!-- topbar-->
+           <?php include("php/topbar.php"); ?>
+            <!-- end of topbar -->
            <div class="header-center">
                 <div class="container container-240">
                    <div class="row flex">
@@ -346,13 +178,52 @@ echo $status;
                                    <a class="hidden-xs hidden-sm" href=""><img src="img/icon-user.png" alt=""></a>
                                    <a href="#"><img src="img/icon-heart.png" alt=""></a>
                                    <div class="cart">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="label5">
+                                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="label5">
                                             <img src="img/icon-cart.png" alt="">
-                                            <span class="count cart-count">0</span>
+                                            <?php
+                                if(!empty($_SESSION["shopping_cart"])) {
+                                $cart_count = count(array_keys($_SESSION["shopping_cart"]));
+                                ?>
+                                            <span class="count cart-count"><?php echo $cart_count; ?></span>
+                                            <?php }?>
                                         </a>
+                                       
                                         <div class="dropdown-menu dropdown-cart">
+                                       
                                             <ul class="mini-products-list">
+                                            <?php
+                               if(isset($_SESSION["shopping_cart"])){
+                                   $total_price = 0;
+                               ?>	
+                                       <?php
+                                       foreach($_SESSION["shopping_cart"] as $product){
+                                          ?>
+                                     
                                                 <li class="item-cart">
+                                                    <div class="product-img-wrap">
+                                                        <a href=""><img src="<?php echo $product["code"]; ?>.jpg" alt="" class="img-reponsive"></a>
+                                                    </div>
+                                                    <div class="product-details">
+                                                        <div class="inner-left">
+                                                            <div class="product-name"><a href="#"><?php echo $product["product_name"]; ?></a></div>
+                                                            <div class="product-price" >
+                                                            <p><?php echo (($product['product_price']));?></p> 
+                                                            <span><?php echo $product['quantity'];?></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <form id="removeForm" method='post' action='' onsubmit="removeForm()">
+                                              <input type='hidden' id="code" name='code' value="<?php echo $product["code"]; ?>" />
+                                              <input type='hidden' id="action" name='action' value="remove" />
+                                                    <button type="button" onclick="this.form.submit()" class="e-del ion-ios-close-empty"></button>
+                                                    </form>
+                                                </li>
+                                                <?php
+                                                
+                                                    $total_price += ((float)($product["product_price"]) * $product["quantity"]);
+                                                        }   ?>
+
+                                                <!--<li class="item-cart">
                                                     <div class="product-img-wrap">
                                                         <a href="#"><img src="img/cart1.jpg" alt="" class="img-reponsive"></a>
                                                     </div>
@@ -365,34 +236,28 @@ echo $status;
                                                         </div>
                                                     </div>
                                                     <a href="#" class="e-del"><i class="ion-ios-close-empty"></i></a>
-                                                </li>
-                                                <li class="item-cart">
-                                                    <div class="product-img-wrap">
-                                                        <a href="#"><img src="img/cart1.jpg" alt="" class="img-reponsive"></a>
-                                                    </div>
-                                                    <div class="product-details">
-                                                        <div class="inner-left">
-                                                            <div class="product-name"><a href="#">Harman Kardon Onyx Studio </a></div>
-                                                            <div class="product-price">
-                                                                $ 60.00 <span>( x2)</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                     <a href="#" class="e-del"><i class="ion-ios-close-empty"></i></a>
-                                                </li>
+                                                </li>-->
                                             </ul>
                                             <div class="bottom-cart">
                                                 <div class="cart-price">
                                                     <span>Subtotal</span>
-                                                    <span class="price-total">$ 120.00</span>
+                                                    <span class="price-total"><?php echo $total_price; ?></span>
                                                 </div>
+
                                                 <div class="button-cart">
-                                                    <a href="#" class="cart-btn btn-viewcart">View Cart</a>
-                                                    <a href="checkout.html" class="cart-btn e-checkout btn-gradient">Checkout</a>
+                                                    <a href="cart.php" class="cart-btn btn-viewcart">View Cart</a>
+                                                    <a href="#" class="cart-btn e-checkout btn-gradient">Checkout</a>
                                                 </div>
                                             </div>
+                                            
+                                                          <?php 
+                                              }else{
+                                              	echo "<h3>Your cart is empty!</h3>";
+                                              	}
+                                              ?>
                                         </div>
-                                   </div>
+                                        
+                                    </div>
                                     <a href="#" class="hidden-md hidden-lg icon-pushmenu js-push-menu">
                                         <i class="fa fa-bars f-15"></i>
                                     </a>
@@ -836,7 +701,7 @@ echo $status;
                                             <form  method='post' action=''>
                                               <input type='hidden' name='code' value="<?php echo $product["code"]; ?>" />
                                               <input type='hidden' name='action' value="remove" />
-                                                    <button  type="button" class="btn-del"><i class="ion-ios-close-empty"></i> </button>
+                                                    <button onclick="this.form.submit()" type="button" class="btn-del"><i class="ion-ios-close-empty"></i> </button>
                                             </form>
                                                 <div class="product-img">
                                                     <img src="img/product/<?php echo $product["code"] ?>.jpg" alt="Futurelife">
@@ -848,20 +713,19 @@ echo $status;
                                             
                                             <td class="bcart-quantity single-product-detail">
                                                 <div class="single-product-info">
-                                                    <form method='post' action='' id="k">
+                                                    <form id='k' method='post' action='' >
                                                     <input type='hidden' name='code' value="<?php echo $product["code"]; ?>" />
-                                                  
-                                              <input type='hidden' name='action' value="change" />
+                                                    <input type='hidden' name='action' value="change" />
                                                     <div class="e-quantity">
                                                     
                                                      <input type="number" step="1" min="1" max="999"
                                                        name="quantity" value="<?php echo $product["quantity"]?>" title="Qty"
-                                                        class="qty input-text js-number" size="4" id="myInput">
+                                                        class="qty input-text js-number" size="4"  onchange="this.form.submit()">
 
-                                                      <div class="tc pa">
-                                                         <button type="button" class="js-plus quantity-right-plus"><i class="fa fa-caret-up"></i></button>
-                                                         <button type="button" class="js-minus quantity-left-minus"><i class="fa fa-caret-down"></i></button>
-                                                      </div>
+                                                      <!--<div class="tc pa">
+                                                         <button  class="js-plus quantity-right-plus"><i class="fa fa-caret-up"></i></button>
+                                                         <button  class="js-minus quantity-left-minus"><i class="fa fa-caret-down"></i></button>
+                                                      </div>-->
                                                    </div>
                                                </form>
                                                 </div>
@@ -944,7 +808,7 @@ echo $status;
                                         </button>
                                     </form>
                                 
-                                <a href="#" onclick="$('#k').submit()" class="btn btn-update">Update cart</a> 
+                                <button type="button" onclick='$("#k").submit()' class="btn btn-update">Update cart</button> 
                             </div>
             
                         </div>

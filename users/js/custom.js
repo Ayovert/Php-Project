@@ -18,19 +18,19 @@ jQuery(document).ready(function($) {
         //} 
            // Don't allow decrementing below zero
 
-        $(".e-quantity").find("input").val(newVal);
+       //$(".e-quantity").find("input").val(newVal);
     
         
       
     
-     /*  var id = $button.attr("id");
+       var id = $button.attr("id");
     $.ajax({
       type: "POST",
       url: "cart.php?id=" + id + "&newvalue=" + newVal,
       success: function() {
        $(".e-quantity").find("input").val(newVal);
       }
-    });*/
+    });
     
       });
 
@@ -50,21 +50,21 @@ jQuery(document).ready(function($) {
           }
         
     
-    $(".e-quantity").find("input").val(newVal);
+   // $(".e-quantity").find("input").val(newVal);
     
-    /*   var id = $button.attr("id");
+      var id = $button.attr("id");
     $.ajax({
       type: "POST",
       url: "cart.php?id=" + id + "&newvalue=" + newVal,
       success: function() {
         $(".e-quantity").find("input").val(newVal);
       }
-    });*/
+    });
     
       });
 
-      $("#myInput").on("input", function(){
-          $("#result").text($(this).val());
+     $("#myInput").on("input", function(){
+         $("#result").text($(this).val());
       });
 
     $(function cartForm(){

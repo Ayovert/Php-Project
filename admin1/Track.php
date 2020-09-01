@@ -1,19 +1,6 @@
 <?php
 include("connection.php");
-if(isset($_POST['search']))
-{
-    $valueToSearch = $_POST['valueToSearch'];
-    // search in all table columns
-    // using concat mysql function
-    $sql = "SELECT * FROM products WHERE 
-    product_id LIKE '%".$valueToSearch."%'";
-    $result = $mysqli->query($sql);
-    
-}
- else {
-    $sql = "SELECT * FROM products";
-    $result = $mysqli->query($sql);
-}
+
 
 
 ?>
@@ -70,7 +57,17 @@ if(isset($_POST['search']))
                             <th scope='col'>Track</th>
                 
                         </tr>
-                
+                <?php if(isset($_POST['search'])){
+    $valueToSearch = $_POST['valueToSearch'];
+    // search in all table columns
+    // using concat mysql function
+    $sql = "SELECT * FROM products WHERE 
+    product_id LIKE '%".$valueToSearch."%'";
+    $result = $mysqli->query($sql);
+    
+
+
+?>
                         <!--<table width = "100%" border = "1" cellspacing = "1" cellpadding = "1"> -->
                         <?php while ($row = mysqli_fetch_array($result)) { ?>
                             <tr>
@@ -102,6 +99,11 @@ if(isset($_POST['search']))
                 
                             </tr>
                     <?php
+                        }
+                    }
+                        else {
+                            $sql = "SELECT * FROM products";
+                            $result = $mysqli->query($sql);
                         }
                     ?>
                   </table>

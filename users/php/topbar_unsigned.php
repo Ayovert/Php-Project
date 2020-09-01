@@ -59,20 +59,7 @@
                                         <li><a href="#">AUD</a></li>
                                         <li><a href="#">EUR</a></li>
                                     </ul>
-                                </div>
-                                
-                                <div class="element element-currency">
-                                    <a id="label3" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                    
-                                      <span>User</span>
-                                      <span class="ion-ios-arrow-down f-10 e-arrow"></span>
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="label3">
-                                        <li><?php require("php/user.php");?></li>
-                                        <li><a href="myaccount.php">Sign Up / Login</a></li>
-                                    </ul>
-                                </div>
-                                
+                                </div>                                
                             </div>
                         </div>
                     </div>

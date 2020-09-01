@@ -1,10 +1,14 @@
+
 <div class="profile_info">
-			<img src="../images/admin_profile.png"  >
+			<img src="../images/admin_profile.png" >
 
 			<div>
 				<?php  if (isset($_SESSION['username'])) : ?>
-					<strong><?php echo $_SESSION['username']; ?></strong>
+					<strong><?php echo $_SESSION['username']; ?></strong><br>
 
+					<a href="products_test.php?logout=<?php echo $_SESSION['username'] ?>">
+					Logout</a><br>
+				
 					<!--<small>
 						<i  style="color: #888;">(<php echo ucfirst($_SESSION['user']['user_type']); ?>)</i> 
 						<br>
@@ -15,3 +19,4 @@
 				<?php endif ?>
 			</div>
 		</div>
+		
