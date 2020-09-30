@@ -1,6 +1,16 @@
 <?php
 session_start();
 include("../admin1/connection.php");
+echo '<br>';
+echo $_SESSION['username'];  
+echo '<br>';
+echo $_SESSION['id'];
+echo '<br>';
+echo $_SESSION['flatRate'];
+echo '<br>';
+echo $_SESSION['shipping_rate'];
+echo '<br>';
+echo $_SESSION['freeRate'];
 
 if (!isLoggedIn()) {
 	$_SESSION['msg'] = "You must log in first";
@@ -22,12 +32,12 @@ if((isset($_SESSION['shopping_cart'])) || (!isset($_SESSION['shopping_cart'])) )
         $product_status = $_POST['product_status'];
     }
 
+    
 }
  
 //print_r($_SESSION["shopping_cart"]); 
 $status ="";
-
-
+ 
 if (isset($_POST['action']) && $_POST['action']=="remove"){
     if(!empty($_SESSION["shopping_cart"])) {
         foreach($_SESSION["shopping_cart"] as $key => $value) {
@@ -52,6 +62,38 @@ if (isset($_POST['action']) && $_POST['action']=="remove"){
       }
             
       }
+
+
+      if (isset($_POST['shipping_rate'])){
+        $total_price = 0;
+        
+        
+   
+        $shipping_rate = $_POST['shipping_rate'];
+        $subtotal_price = $_POST['subtotal_price'];
+      
+
+        $flatRate = 'checked';
+        $freeRate = 'unchecked';
+            
+        if ($shipping_rate == '12') {
+        
+        $flatRate = 'checked';
+        $freeRate = 'unchecked';
+        $_SESSION['shipping_rate'] = $shipping_rate;
+        $total_price = $_SESSION['shipping_rate'] + $subtotal_price;
+        
+        }
+        else if ($shipping_rate == '0') {
+        
+        $freeRate = 'checked';
+        $flatRate = 'unchecked';
+        $_SESSION['shipping_rate'] = $shipping_rate;
+        $total_price = $_SESSION['shipping_rate'] + $subtotal_price;
+    }
+     
+     
+     }
 
 echo $status;
 
@@ -195,13 +237,13 @@ echo $status;
                                             <ul class="mini-products-list">
                                             <?php
                                if(isset($_SESSION["shopping_cart"])){
-                                   $total_price = 0;
+                                   $subtotal_price = 0;
                                ?>	
                                        <?php
                                        foreach($_SESSION["shopping_cart"] as $product){
                                           ?>
                                      
-                                                <li class="item-cart">
+                                     <li class="item-cart">
                                                     <div class="product-img-wrap">
                                                         <a href=""><img src="<?php echo $product["code"]; ?>.jpg" alt="" class="img-reponsive"></a>
                                                     </div>
@@ -214,16 +256,16 @@ echo $status;
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <form id="removeForm" method='post' action='' onsubmit="removeForm()">
+                                                    
                                               <input type='hidden' id="code" name='code' value="<?php echo $product["code"]; ?>" />
-                                              <input type='hidden' id="action" name='action' value="remove" />
-                                                    <button type="button" onclick="this.form.submit()" class="e-del ion-ios-close-empty"></button>
-                                                    </form>
+                                                    <button type="submit" name="remove" class="e-del ion-ios-close-empty"></button>
+                                                    
                                                 </li>
                                                 <?php
                                                 
-                                                    $total_price += ((float)($product["product_price"]) * $product["quantity"]);
+                                                    $subtotal_price += ((float)($product["product_price"]) * $product["quantity"]);
                                                         }   ?>
+                                                
 
                                                 <!--<li class="item-cart">
                                                     <div class="product-img-wrap">
@@ -243,7 +285,7 @@ echo $status;
                                             <div class="bottom-cart">
                                                 <div class="cart-price">
                                                     <span>Subtotal</span>
-                                                    <span class="price-total"><?php echo $total_price; ?></span>
+                                                    <span class="price-total"><?php echo $subtotal_price; ?></span>
                                                 </div>
 
                                                 <div class="button-cart">
@@ -722,10 +764,10 @@ echo $status;
                 </div>
                 <?php
    //         include('connectionx.php');
-    if (isset($_POST['username'])) {
+   /* if (isset($_POST['username'])) {
         $sql = "DELETE FROM users WHERE username=$username";
         $result = $mysqli->query($sql);
-    }
+    }*/
     
 
     $sql = "SELECT * FROM users";
@@ -737,6 +779,7 @@ echo $status;
     ?>
                 
                 <form name="checkout" action="" method="post" class="co">
+                <input type="hidden" name="userId" value="<?php echo $row['id']; ?>">
                 <input type="hidden" name="username" value="<?php echo $row['username']; ?>">
                     <div class="cart-box-container-ver2">
                         <div class="row">
@@ -805,7 +848,8 @@ echo $status;
                                         </div>
                                         <div class="form-group col-md-12">
                                             <label for="inputfState" class=" control-label">Order Notes</label>
-                                            <textarea name="message" rows="8" id="message" class="form-control form-note" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
+                                            <textarea name="message" rows="8" id="message" class="form-control form-note" 
+                                            placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -826,23 +870,37 @@ echo $status;
                                             <ul class="co-pd-list">
                                             <?php
                                if(isset($_SESSION["shopping_cart"])){
-                                   $total_price = 0;
+                                   $subtotal_price = 0;
                                ?>	
                                        <?php
                                        foreach($_SESSION["shopping_cart"] as $product){
-                                          ?>
+                                          ?>        <input type="hidden" name="product_code"  
+                                                     value="<?php echo $product['code'] ?>">
+                                                     <?php echo $product['code']  ?>
                                                 <li class="clearfix">
                                                     <div class="co-name">
-                                                    <?php echo $product["product_name"]; ?>  x 
-                                                    <?php echo $product['quantity'];?>
+                                                    <?php echo $product["product_name"]; ?> 
+
+                                                    <input type="hidden" name="product_name"  
+                                                     value="<?php echo $product['product_name'] ?>">
+
+                                                    (<?php echo $product['quantity'];?>)
                                                     </div>
+                                                    
                                                     <div class="co-price">
-                                                    <?php echo (($product['product_price']));?>
+                                                    <input type="hidden" name="product_price"  
+                                                     value="<?php echo $product['product_price'] ?>">
+                                                    <?php echo (($product['product_price']));?>  x 
+                                                    <?php echo $product['quantity'];?>
+                                                    <input type="hidden" name="quantity"  
+                                                     value="<?php echo $product['quantity'] ?>">
+
+
                                                     </div>
                                                 </li>
                                                 <?php
                                                 
-                                                    $total_price += ((float)($product["product_price"]) * $product["quantity"]);
+                                                    $subtotal_price += ((float)($product["product_price"]) * $product["quantity"]);
                                                         }   ?>
                                             </ul>
                                         </div>
@@ -850,7 +908,7 @@ echo $status;
                                             <tbody>
                                                 <tr class="cart-subtotal">
                                                     <th>Subtotal</th>
-                                                    <td><?php echo $total_price; ?></td>
+                                                    <td><?php echo $subtotal_price; ?></td>
                                                 </tr>
 
                                                 <?php 
@@ -861,40 +919,47 @@ echo $status;
                                                 <tr class="cart-shipping v2">
                                                     <th>Shipping</th>
                                                     <td class="td">
-                                                        <ul class="shipping">
-                                                            <li>
-                                                                <input type="radio" name="gender" value="Flat" id="radio1" checked="checked">
-                                                                <label for="radio1">Flat rate : $ 12</label>
-                                                            </li>
-                                                            <li>
-                                                                <input type="radio" name="gender" value="Free" id="radio2">
-                                                                <label for="radio2">Free Shipping</label>
-                                                            </li>
-                                                        </ul>
+                                                    <ul class="shipping">
+                                                    <li>
+                                                        <input type="radio" name="shipping_rate" value="12" id="radio1"
+                                                        <?php echo $flatRate ?>
+                                                         onchange="this.form.submit();" >
+                                                         
+                                                        <label for="radio1">Flat rate : $ 12</label>
+                                                    </li>
+                                                    <li>
+                                                        <input type="radio" name="shipping_rate"   value="0" id="radio2"
+                                                        <?php echo $freeRate ?> 
+                                                        onchange="this.form.submit();">
+                                                        <label for="radio2">Free Shipping</label>
+                                                    </li>
+                                                </ul>
                                                     </td>
                                                 </tr>
                                                 <tr class="order-total v2">
-                                                    <th>Total</th>
-                                                    <td>$  <?php echo $total_price + 12?></td>
+                                                <th>Total</th>
+                                            <td scope="col"> $  <?php  
+                                            $total_price = $_SESSION['shipping_rate']  + $subtotal_price;                                                   
+                                            echo $total_price ?></td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                     <ul class="payment">
                                         <li>
-                                            <input type="radio" name="gender" value="Direct" id="radio3" >
+                                            <input type="radio" name="payMethod" value="Direct" id="radio3" >
                                             <label for="radio3">Direct bank transfer</label>
                                         </li>
                                         <li>
-                                            <input type="radio" name="gender" value="Check" id="radio4">
+                                            <input type="radio" name="payMethod" value="Check" id="radio4">
                                             <label for="radio4">Check payments</label>
                                         </li>
                                         <li>
-                                            <input type="radio" name="gender" value="Cash" id="radio5">
+                                            <input type="radio" name="payMethod" value="Cash" id="radio5">
                                             <label for="radio5">Cash on delivery</label>
                                         </li>
                                         <li>
-                                            <input type="radio" name="gender" value="Paypal" id="radio6">
+                                            <input type="radio" name="payMethod" value="Paypal" id="radio6">
                                             <label for="radio6">PayPal Express Checkout <a class="co-pp" href=""><img src="img/payment/pp.jpg" alt=""></a></label>
                                             
                                         </li>
@@ -902,12 +967,13 @@ echo $status;
                                     
                                     <div class="form-check">
                                         <label class="form-check-label ver2">
-                                            <input type="checkbox" class="form-check-input">
+                                            <input type="checkbox" class="form-check-input" name="terms">
                                             <span>I’ve read and accept the <a href="#" class="term">terms & conditions *</a></span>
                                         </label>
                                     </div>
                                     <div class="cart-total-bottom v2 form-group">
-                                    <button class="btn-gradient btn-checkout btn-co-order" type="submit" name="order"> Place order</button>
+                                    <button class="btn-gradient btn-checkout btn-co-order" type="submit" 
+                                    name="order"> Place order</button>
                                     </div>
                                 </div>
                             </div>

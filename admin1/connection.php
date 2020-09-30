@@ -36,9 +36,24 @@ $product_size = "";
 $product_desc = "";
 $product_price= "";
 $product_status = "";
+$product_location = "";
+$prodOrigin = "";
 $last_added = date("Y-m-d H:i:s");
 $product_id = 0;
 $update = false;
+$freeRate= 'unchecked';
+$flatRate = 'checked';
+$tracking_order_id = 0;
+$current_Location ='';
+$orderStatus = '';
+$Remark ='';
+$orderDate = date("Y-m-d H:i:s");
+
+//$shipping_rate = '12';
+//$subtotal_price = 0;
+$cart_id = 1;
+
+
 
 if (isset($_POST['save'])) {
   if(isset($_POST['product_type'])) {
@@ -88,13 +103,14 @@ if (isset($_POST['update'])) {
   $product_desc = $_POST['product_desc'];
   $product_price = $_POST['product_price'];
   $product_status = $_POST['product_status'];
+  $product_location = $_POST['product_location'];
   $last_added = date("Y-m-d H:i:s");
   
 
 	$sql = "UPDATE products SET product_type='$product_type', product_name='$product_name', 
   code='$code', product_size='$product_size', 
   product_desc='$product_desc', product_price='$product_price', 
-    product_status='$product_status', last_added='$last_added' WHERE product_id = $product_id";
+    product_status='$product_status', product_location='$product_location', last_added='$last_added' WHERE product_id = $product_id";
   $_SESSION['message'] = "Address updated!"; 
   $mysqli->query($sql);
   header('location: products.php');
@@ -116,13 +132,37 @@ if (isset($_POST['update'])) {
   }
 
   if (isset($_GET['track'])) {
-    $product_id = $_GET['track'];
-    $sql= "INSERT INTO tracking_order (product_name, code, product_size, product_desc, lastDate)
-    SELECT product_name, code, product_size, product_desc, last_added FROM products WHERE product_id=$product_id";
-    $_SESSION['message'] = "Table Created!"; 
-    $mysqli->query($sql);
-    header('location: products_track.php');
+    $id = $_GET['track'];
+    $orderDate = date("Y-m-d H:i:s");
+    $sql = "SELECT * FROM tracking_order_history WHERE tracking_order_id=$id";
+    $result = $mysqli->query($sql)or die($mysqli ->error);
+    $rows = mysqli_num_rows($result);
+        if($rows==1){
+          header('location: track_history.php');
+       }
+
+      
+    /*$sql= "INSERT INTO tracking_order_history (tracking_order_id, product_name)
+    SELECT id, product_name FROM tracking_order WHERE id=$id AND  
+    INSERT INTO tracking_order_history (orderDate) VALUES ('$orderDate') ";*/
+   else{
+    $sql = "SELECT * FROM tracking_order WHERE id=$id";
+    $result = $mysqli->query($sql);
+
+    if ($result = $mysqli->query($sql)) {
+        $row = mysqli_fetch_array($result);
+
+        $tracking_id = $row['id'];
+        $product_name = $row['product_name'];
+        $orderDate = date("Y-m-d H:i:s");
+        $sql = " INSERT INTO tracking_order_history (tracking_order_id,  product_name, orderDate) 
+        VALUES ($tracking_id,  '$product_name', '$orderDate')";
+        $_SESSION['message'] = "Table Created!"; 
+        $mysqli->query($sql);
+    header('location: track_history.php');
+   }
   }
+}
   
 
   
@@ -185,22 +225,46 @@ $crnDate = date("Y-m-d H:i:s");
 
 if (isset($_POST['login'])) {
   if ((isset($_POST['username'])) ){
-      
+      $id= intval($_REQUEST['id']);
     $username = stripslashes($_REQUEST['username']); // removes backslashes
     $username = $mysqli -> real_escape_string($username); //escapes special characters in a string
     $password = stripslashes($_REQUEST['password']);
     $password = $mysqli -> real_escape_string($password);
-    
-  //Checking is user existing in the database or not
+    $flatRate = stripslashes($_REQUEST['flatRate']); // removes backslashes
+    $flatRate = $mysqli -> real_escape_string($flatRate); //escapes special characters in a string
+    $freeRate = stripslashes($_REQUEST['freeRate']); // removes backslashes
+    $freeRate = $mysqli -> real_escape_string($freeRate); //escapes special characters in a string
+    $cart_id = intval($_REQUEST['cart_id']); // removes backslashes
+    $shipping_rate = intval($_REQUEST['shipping_rate']); // removes backslashes
+    //Checking is user existing in the database or not
         $sql = "SELECT * FROM users WHERE username='$username' or email = '$username' and password='".md5($password)."'";
     $result = $mysqli->query($sql)or die($mysqli ->error);
     $rows = mysqli_num_rows($result);
         if($rows==1){
       if($username == ('admin')){
         $_SESSION['username'] = $username;
+        $_SESSION['id'] = $id;
+
         header("Location: ../admin1/products.php"); // Redirect user to index.php
       }else{
         $_SESSION['username'] = $username;
+        $_SESSION['id'] = $id;
+
+        if(isset($_REQUEST['cart_id'])){
+          $cart_id = intval(1); 
+          $sql="SELECT * FROM shipping_rate WHERE id = $cart_id";
+          $result = $mysqli->query($sql);
+
+if ($result = $mysqli->query($sql) && (count((array)$result)) == 1){
+  $row = mysqli_fetch_row($result);
+  $flatRate = $row['status'];
+  $freeRate = $row['status2'];
+  $shipping_rate = $row['Rate'];
+}
+  $_SESSION['flatRate'] = $flatRate;
+  $_SESSION['freeRate'] = $freeRate;
+  $_SESSION['shipping_rate'] = $shipping_rate;
+        }
       header("Location: ./products_test.php"); // Redirect user to index.php
       }
             }else{
@@ -210,7 +274,7 @@ if (isset($_POST['login'])) {
   }
 
   if (isset($_POST['order'])) {
-    if (isset($_REQUEST['email'])){
+    if (isset($_REQUEST['terms'])){
       
   
   $FirstName = stripslashes($_REQUEST['FirstName']);
@@ -239,6 +303,80 @@ if (isset($_POST['login'])) {
   
   $email = stripslashes($_REQUEST['email']);
   $email =  $mysqli -> real_escape_string($email);
+
+  $username = stripslashes($_REQUEST['username']);
+  $username =  $mysqli -> real_escape_string($username);  
+
+  $userId = stripslashes($_REQUEST['userId']);
+  $userId =  $mysqli -> real_escape_string($userId);
+
+  $product_code = stripslashes($_REQUEST['product_code']);
+  $product_code =  $mysqli -> real_escape_string($product_code);
+
+  $product_name = stripslashes($_REQUEST['product_name']);
+  $product_name =  $mysqli -> real_escape_string($product_name);
+
+  $product_price = stripslashes($_REQUEST['product_price']);
+  $product_price =  $mysqli -> real_escape_string($product_price);
+
+  $quantity = stripslashes($_REQUEST['quantity']);
+  $quantity =  $mysqli -> real_escape_string($quantity);
+
+  $payMethod = stripslashes($_REQUEST['payMethod']);
+  $payMethod =  $mysqli -> real_escape_string($payMethod);
+
+  $lastDate = date("Y-m-d H:i:s");
+
+  //Checking is user existing in the database or not
+  $sql = "SELECT email FROM users WHERE email='$email'";
+  $result = $mysqli->query($sql)or die($mysqli ->error);
+  $rows = mysqli_num_rows($result);
+        if($rows==1){
+          $sql = "UPDATE users SET FirstName='$FirstName', LastName='$LastName',
+           CompanyName='$CompanyName', 
+          Country='$Country', StreetAddress='$StreetAddress', PostCode='$PostCode', 
+          TownCity='$TownCity', Phone='$Phone' WHERE email='$email'";
+           $mysqli->query($sql);
+      }
+
+      $sql = "INSERT INTO tracking_order ( userId, product_id, product_name, product_price, quantity,
+      prodDest, payMeth, lastDate) 
+      VALUES ('$userId', '$product_code', '$product_name', '$product_price', '$quantity', '$TownCity', 
+      '$payMethod', '$lastDate')";
+      $mysqli ->query($sql);
+      $result = $mysqli->query($sql);
+
+      if(isset($_REQUEST['product_code'])){
+        $product_code = $_REQUEST['product_code'];
+        $sql= "SELECT product_location FROM products WHERE code='$product_code'";
+       $mysqli ->query($sql);
+       $result = $mysqli->query($sql);
+       if ($result = $mysqli->query($sql)){
+        $row = mysqli_fetch_array($result);
+        $prodOrigin = $row['product_location'];
+        $sql = "UPDATE tracking_order SET prodOrigin='$prodOrigin' WHERE product_id='$product_code'";
+      $mysqli->query($sql);
+      }
+      
+    }
+      
+  
+  }else{
+    echo "<div class='form'><h3>You have to agree to the terms and conditions.</h3><br/>
+    Click here to <a href='login.php'>Login</a></div>";
+  
+    }
+  }
+
+  
+  /*if (isset($_POST['checkout'])) {
+    if (isset($_REQUEST['email'])){
+      
+  
+  $FirstName = stripslashes($_REQUEST['FirstName']);
+  $FirstName =  $mysqli -> real_escape_string($FirstName);
+  
+  
   
   //Checking is user existing in the database or not
   $sql = "SELECT email FROM users WHERE email='$email'";
@@ -258,7 +396,7 @@ if (isset($_POST['login'])) {
     Click here to <a href='login.php'>Login</a></div>";
   
     }
-  }
+  }*/
 
 
 

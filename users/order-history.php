@@ -2,113 +2,11 @@
 session_start();
 include("../admin1/connection.php");
 
-
-echo $_SESSION['username'];
-echo $_SESSION['id'];
-echo $_SESSION['flatRate'];
-echo $_SESSION['shipping_rate'];
-echo $_SESSION['freeRate'];
-
-
-
 if (!isLoggedIn()) {
 	$_SESSION['msg'] = "You must log in first";
-	header('location: myaccount.php');
+    header('location: myaccount.php');
+
 }
-
-if((isset($_SESSION['shopping_cart'])) || (empty($_SESSION['shopping_cart'])) ){
-    
-    if(isset($_POST['product_name'])) {
-        $product_name = $_POST['product_name'];
-    }
-
-    if(isset($_POST['code'])) {
-        $code = $_POST['code'];
-        $total_price = $_SESSION['shopping_cart'][$code]['product_price'] + $_SESSION['shopping_cart'][$code]['quantity'];
-
-    print_r ($_SESSION['shopping_cart'][$code]['product_price']);
-    }
-   
-    if(isset($_POST['product_price'])) {
-        $product_price = $_POST['product_price'];
-    }
-    if(isset($_POST['product_status'])) {
-        $product_status = $_POST['product_status'];
-    }
-
-      
-}
-
-
-$status ="";
-
-if (isset($_POST['remove'])){
-    if(!empty($_SESSION["shopping_cart"])) {
-        foreach($_SESSION["shopping_cart"] as $key => $value) {
-            if($_POST["code"] == $key){
-            unset($_SESSION["shopping_cart"][$key]);
-            $status = "<div class='box' style='color:red;'>
-            Product is removed from your cart!</div>";
-            }
-            if(empty($_SESSION["shopping_cart"]))
-            unset($_SESSION["shopping_cart"]);
-                }		
-            }
-    }
-
-
-    if (isset($_POST['action']) && $_POST['action']=="change"){
-        foreach($_SESSION["shopping_cart"] as &$value){
-          if($value['code'] === $_POST["code"]){
-              $value['quantity'] = $_POST["quantity"];
-              break; // Stop the loop after we've found the product
-          }
-      }
-            
-      }
-
-      if (isset($_POST['shipping_rate'])){
-        $total_price = 0;
-        
-        
-   
-        $shipping_rate = $_POST['shipping_rate'];
-        $subtotal_price = $_POST['subtotal_price'];
-      
-
-        $flatRate = 'checked';
-        $freeRate = 'unchecked';
-            
-        if ($shipping_rate == '12') {
-        
-        $flatRate = 'checked';
-        $freeRate = 'unchecked';
-        $_SESSION['shipping_rate'] = $shipping_rate;
-        $total_price = $_SESSION['shipping_rate'] + $subtotal_price;
-        
-        }
-        else if ($shipping_rate == '0') {
-        
-        $freeRate = 'checked';
-        $flatRate = 'unchecked';
-        $_SESSION['shipping_rate'] = $shipping_rate;
-        $total_price = $_SESSION['shipping_rate'] + $subtotal_price;
-    }
-     
-     
-     }
-
-echo $status;
-
-
-
-if (isset($_POST['checkout'])){
-    header('location:checkout.php'); 
-}
-
-
-
-
 
 ?>
 <!DOCTYPE html>
@@ -125,43 +23,246 @@ if (isset($_POST['checkout'])){
     <link rel="stylesheet" href="css/slick-theme.css">
     <link rel="stylesheet" href="css/owl.theme.default.min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
-
-  
-
 </head>
 
-<body id="body-f">
+<body>
+    <!-- push menu-->
+    <div class="pushmenu menu-home5">
+        <div class="menu-push">
+            <span class="close-left js-close"><i class="icon-close f-20"></i></span>
+            <div class="clearfix"></div>
+            <form role="search" method="get" id="searchform" class="searchform" action="/search">
+               <div>
+                  <label class="screen-reader-text" for="q"></label>
+                  <input type="text" placeholder="Search for products" value="" name="q"
+                   id="q" autocomplete="off"><input type="hidden" 
+                   name="type" value="product"><button type="submit" id="searchsubmit">
+                   <i class="ion-ios-search-strong"></i></button>
+               </div>
+            </form>
+            <ul class="nav-home5 js-menubar">
+                <li class="level1 active dropdown"><a href="#">Home</a>
+                    <span class="icon-sub-menu"></span>
+                    <ul class="menu-level1 js-open-menu">
+                        <li class="level2"><a href="home1.html" title="">Demo 1</a></li>
+                        <li class="level2"><a href="home2.html" title="">Demo 2</a></li>
+                        <li class="level2"><a href="home3.html" title="">Demo 3</a></li>
+                        <li class="level2"><a href="home4.html" title="">Demo 4</a></li>
+                        <li class="level2"><a href="home5.html" title="">Demo 5</a></li>
+                        <li class="level2"><a href="#" title="">Demo 6</a></li>
+                        
+                    </ul>
+                </li>
+                <li class="level1 active dropdown"><a href="#">Shop</a>
+                    <span class="icon-sub-menu"></span>
+                    <div class="menu-level1 js-open-menu">
+                        <ul class="level1">
+                            <li class="level2">
+                                <a href="#">Shop Layout</a>
+                                <ul class="menu-level-2">
+                                    <li class="level3"><a href="shop_full.html" title="">shop Full Width
+                                    </a></li>
+                                    <li class="level3"><a href="shopgrid_v1.html" title="">
+                                    Shop Grid v.1</a></li>
+                                    <li class="level3"><a href="shopgrid_v2.html" title="">
+                                    Shop Grid v.2</a></li>
+                                    <li class="level3"><a href="shoplist.html" title="">
+                                    Shop List</a></li>
+                                    <li class="level3"><a href="shopleft_sidebar.html" title="">
+                                    Shop Left Sidebar</a></li>
+                                    <li class="level3"><a href="shopright_sidebar.html" title="">
+                                    Shop Right Sidebar</a></li>
+                                </ul>
+                            </li>
+                            <li class="level2">
+                                <a href="#">Categories</a>
+                                <ul class="menu-level-2">
+                                    <li class="level3"><a href="cat_fullwidth.html" title="">
+                                    Categories Full Width</a></li>
+                                    <li class="level3"><a href="cat_left_sidebar.html" title="">
+                                    Categories Left Sidebar</a></li>
+                                    <li class="level3"><a href="cat_right_sidebar.html" title="">
+                                    Categories Right Sidebar</a></li>
+                                </ul>
+                            </li>
+                            <li class="level2">
+                                <a href="#">Single Product Type</a>
+                                <ul class="menu-level-2">
+                                    <li class="level3"><a href="bundle.html" title="">
+                                    Bundle</a></li>
+                                    <li class="level3"><a href="pin_product.html" title="">
+                                    Pin Product</a></li>
+                                    <li class="level3"><a href="360degree.html" title="">
+                                    360 Degree</a></li>
+                                    <li class="level3"><a href="feature_video.html" title="">
+                                    Featued video</a></li>
+                                    <li class="level3"><a href="simple.html">Simple</a></li>
+                                    <li class="level3"><a href="variable.html">Variable</a></li>
+                                    <li class="level3"><a href="affilate.html">External / Affiliate</a></li>
+                                    <li class="level3"><a href="grouped.html">Grouped</a></li>
+                                    <li class="level3"><a href="outofstock.html">Out of stock</a></li>
+                                    <li class="level3"><a href="onsale.html">On sale</a></li>
+                                </ul>
+                            </li>
+                            <li class="level2">
+                                <a href="#">Single Product Layout</a>
+                                <ul class="menu-level-2">
+                                    <li class="level3"><a href="product_extended.html" title="">
+                                    Product Extended</a></li>
+                                    <li class="level3"><a href="product_sidebar.html" title="">
+                                    Product Left Sidebar</a></li>
+                                    <li class="level3"><a href="product_right_sidebar.html" title="">
+                                    Product Right Sidebar</a></li>
+                                </ul>
+                            </li>
+                            <li class="level2">
+                                <a href="#">Other Pages</a>
+                                <ul class="menu-level-2">
+                                    <li class="level3"><a href="shop_full.html" title="">Shop</a></li>
+                                    <li class="level3"><a href="cart.html" title="">Cart</a></li>
+                                    <li class="level3"><a href="wishlist.html" title="">My Wishlist</a></li>
+                                    <li class="level3"><a href="checkout.html" title="">Checkout</a></li>
+                                    <li class="level3"><a href="myaccount.html" title="">My Account</a></li>
+                                    <li class="level3"><a href="track.html" title="">Track Your Order</a></li>
+                                    <li class="level3"><a href="quickview.html" title="">Quick View</a></li>
 
-     <!-- push menu-->
-     <?php include("php/pushmenu.php")?>
+                                </ul>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                </li>
+                <li class="level1 active dropdown"><a href="#">Mega Menu</a></li>
+                <li class="level1">
+                    <a href="#">Pages</a>
+                    <span class="icon-sub-menu"></span>
+                    <ul class="menu-level1 js-open-menu">
+                         <li class="level2"><a href="aboutus.html" title="About Us ">About Us </a></li>
+                        <li class="level2"><a href="contactus.html" title="Contact">Contact</a></li>
+                        <li class="level2"><a href="faq.html" title="FAQs">FAQs</a></li>
+                        <li class="level2"><a href="404.html" title="404">404</a></li>
+                        <li class="level2"><a href="commingsoon.html" title="Coming Soon">
+                        Coming Soon</a></li>
+                    </ul>
+                </li>
+                <li class="level1">
+                    <a href="#">Blog</a>
+                    <span class="icon-sub-menu"></span>
+                    <ul class="menu-level1 js-open-menu">
+                        <li class="level2"><a href="blog-standar.html" title="Blog Standar">
+                        Blog Standar</a></li>
+                        <li class="level2"><a href="blog_grid.html" title="Blog Gird">
+                        Blog Gird</a></li>
+                        <li class="level2"><a href="blog-standar.html" title="Blog Sidebar">
+                        Blog Sidebar</a></li>
+                        <li class="level2"><a href="blog-single-post.html" title="Blog Single Post">
+                        Blog Single Post</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
     <!-- end push menu-->
     <div class="wrappage">
         <header id="header" class="header-v5">
            <div class="header-top-banner">
                <a href="#"><img src="img/banner-top.jpg" alt="" class="img-reponsive"></a>
            </div>
-           <!-- topbar-->
-           <?php include("php/topbar.php"); ?>
-            <!-- end of topbar -->
+           <div class="topbar">
+               <div class="container container-240">
+                   <div class="row flex">
+                       <div class="col-md-6 col-sm-6 col-xs-4 flex-left">
+                           <div class="topbar-left">
+                               <div class="element element-store hidden-xs hidden-sm">
+                                    <a id="label1" class="dropdown-toggle" data-toggle="dropdown"
+                                    role="button" aria-haspopup="true" aria-expanded="false">
+                                    <img src="img/icon-map.png" alt="">
+                                      <span>Store Location</span>
+                                      
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="label1">
+                                        <li><a href="#">New York</a></li>
+                                        <li><a href="#">California</a></li>
+                                        <li><a href="#">Los Angeles</a></li>
+                                    </ul>
+                                </div>
+                                <div class="element hidden-xs hidden-sm">
+                                    <a href="#"><img src="img/icon-track.png" alt=""><span>
+                                    Track Your Order</span></a>
+                                </div>
+                                <div class="element element-account hidden-md hidden-lg">
+                                    <a href="#">My Account</a>
+                                </div>
+                            </div>
+                       </div>
+                       <div class="col-md-6 col-sm-6 col-xs-8 flex-right">
+                            <div class="topbar-right">
+                               <div class="element hidden-xs hidden-sm">
+                                    <a href="#">Buyer Protection </a>
+                                </div>
+                                <div class="element hidden-xs hidden-sm">
+                                    <a href="#">Help</a>
+                                </div>
+                                <div class="element hidden-xs hidden-sm">
+                                    <a href="#"><img src="img/icon-phone.png" alt=""><span>
+                                    Save big on our app!</span></a>
+                                </div>
+                                <div class="element element-leaguage">
+                                    <a id="label2" class="dropdown-toggle" data-toggle="dropdown" 
+                                    role="button" aria-haspopup="true" aria-expanded="false">
+                                        <img src="img/icon-l.png" alt="">
+                                      <span>English</span>
+                                      <span class="ion-ios-arrow-down f-10 e-arrow"></span>
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="label2">
+                                        <li><a href="#">EN</a></li>
+                                        <li><a href="#">DE</a></li>
+                                        <li><a href="#">FR</a></li>
+                                    </ul>
+                                </div>
+                                <div class="element element-currency">
+                                    <a id="label3" class="dropdown-toggle" data-toggle="dropdown" 
+                                    role="button" aria-haspopup="true" aria-expanded="false">
+                                    
+                                      <span>USD</span>
+                                      <span class="ion-ios-arrow-down f-10 e-arrow"></span>
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="label3">
+                                        <li><a href="#">USD</a></li>
+                                        <li><a href="#">AUD</a></li>
+                                        <li><a href="#">EUR</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                       </div>
+                        
+                   </div>
+               </div>
+           </div>
            <div class="header-center">
                 <div class="container container-240">
                    <div class="row flex">
                         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 v-center header-logo">
                            
-                               <a href="products_test.php"><img src="img/logo.png" alt="" class="img-reponsive"></a>
+                               <a href="products_test.php"><img src="img/logo.png" alt="" 
+                               class="img-reponsive"></a>
                            
                         </div>
                        <div class="col-lg-7 col-md-7 v-center header-search hidden-xs hidden-sm">
-                            <form method="get" class="searchform ajax-search" action="/search" role="search">
+                            <form method="get" class="searchform ajax-search" action="/search"
+                             role="search">
                                 <input type="hidden" name="type" value="product">
-                                <input type="text" onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" name="q" class="form-control" placeholder="i’m shoping for...">
+                                <input type="text" onblur="if (this.value=='') 
+                                this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) 
+                                this.value = ''" name="q" class="form-control" placeholder="i’m shoping for...">
                                 <ul class="list-product-search hidden-xs hidden-sm">
                                     <li>
                                         <a class="flex align-center" href="">
                                             <div class="product-img">
                                                 <img src="img/product/iphonex.jpg" alt="">
                                             </div>
-                                            <h3 class="product-title">Notebook Black Spire Smartphone Black 2.0</h3>
+                                            <h3 class="product-title">
+                                            Notebook Black Spire Smartphone Black 2.0</h3>
                                         </a>
                                     </li>
                                     <li>
@@ -176,7 +277,8 @@ if (isset($_POST['checkout'])){
                                             <div class="product-img">
                                                 <img src="img/product/phone4.jpg" alt="">
                                             </div>
-                                            <h3 class="product-title">Notebook Black Spire Smartphone Black 2.0</h3>
+                                            <h3 class="product-title">
+                                            Notebook Black Spire Smartphone Black 2.0</h3>
                                         </a>
                                     </li>
                                     <li>
@@ -192,12 +294,14 @@ if (isset($_POST['checkout'])){
                                             <div class="product-img">
                                                 <img src="img/product/phone1.jpg" alt="">
                                             </div>
-                                            <h3 class="product-title">Notebook Black Spire Smartphone Black 2.0</h3>
+                                            <h3 class="product-title">
+                                            Notebook Black Spire Smartphone Black 2.0</h3>
                                         </a>
                                     </li>
                                 </ul>
                                 <div class="search-panel">
-                                    <a class="dropdown-toggle" data-toggle="dropdown" href='#'>All categories <span class="fa fa-caret-down"></span></a>
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href='#'>
+                                    All categories <span class="fa fa-caret-down"></span></a>
                                     <ul id="category" class="dropdown-menu dropdown-category">
                                         <li><a href="#">TV & Video</a></li>
                                         <li><a href="#">Home Audio & Theater</a></li>
@@ -209,7 +313,8 @@ if (isset($_POST['checkout'])){
                                     </ul>
                                 </div>
                                 <span class="input-group-btn">
-                                          <button class="button_search" type="button"><i class="ion-ios-search-strong"></i></button>
+                                          <button class="button_search" type="button">
+                                          <i class="ion-ios-search-strong"></i></button>
                                 </span>
                             </form>
                             <div class="tags">
@@ -233,89 +338,63 @@ if (isset($_POST['checkout'])){
                                    </div>
                                </div>
                                <div class="header-sub-element row">
-                                   <a class="hidden-xs hidden-sm" href=""><img src="img/icon-user.png" alt=""></a>
+                                   <a class="hidden-xs hidden-sm" href=""><img src="img/icon-user.png" 
+                                   alt=""></a>
                                    <a href="#"><img src="img/icon-heart.png" alt=""></a>
                                    <div class="cart">
-                                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="label5">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
+                                        role="button" aria-haspopup="true" aria-expanded="false" 
+                                        id="label5">
                                             <img src="img/icon-cart.png" alt="">
-                                            <?php
-                                if(!empty($_SESSION["shopping_cart"])) {
-                                $cart_count = count(array_keys($_SESSION["shopping_cart"]));
-                                ?>
-                                            <span class="count cart-count"><?php echo $cart_count; ?></span>
-                                            <?php }?>
+                                            <span class="count cart-count">0</span>
                                         </a>
-                                       
                                         <div class="dropdown-menu dropdown-cart">
-                                       
                                             <ul class="mini-products-list">
-                                            <?php
-                               if(isset($_SESSION["shopping_cart"])){
-                                   $subtotal_price = 0;
-                               ?>	
-                                       <?php
-                                       foreach($_SESSION["shopping_cart"] as $product){
-                                          ?>
-                                     
                                                 <li class="item-cart">
                                                     <div class="product-img-wrap">
-                                                        <a href=""><img src="<?php echo $product["code"]; ?>.jpg" alt="" class="img-reponsive"></a>
+                                                        <a href="#"><img src="img/cart1.jpg" alt="" 
+                                                        class="img-reponsive"></a>
                                                     </div>
                                                     <div class="product-details">
                                                         <div class="inner-left">
-                                                            <div class="product-name"><a href="#"><?php echo $product["product_name"]; ?></a></div>
-                                                            <div class="product-price" >
-                                                            <p><?php echo (($product['product_price']));?></p> 
-                                                            <span><?php echo $product['quantity'];?></span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    
-                                              <input type='hidden' id="code" name='code' value="<?php echo $product["code"]; ?>" />
-                                                    <button type="submit" name="remove" class="e-del ion-ios-close-empty"></button>
-                                                    
-                                                </li>
-                                                <?php
-                                                
-                                                    $subtotal_price += ((float)($product["product_price"]) * $product["quantity"]);
-                                                        }   ?>
-
-                                                <!--<li class="item-cart">
-                                                    <div class="product-img-wrap">
-                                                        <a href="#"><img src="img/cart1.jpg" alt="" class="img-reponsive"></a>
-                                                    </div>
-                                                    <div class="product-details">
-                                                        <div class="inner-left">
-                                                            <div class="product-name"><a href="#">Harman Kardon Onyx Studio </a></div>
+                                                            <div class="product-name"><a href="#">
+                                                            Harman Kardon Onyx Studio </a></div>
                                                             <div class="product-price">
                                                                 $ 60.00 <span>( x2)</span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <a href="#" class="e-del"><i class="ion-ios-close-empty"></i></a>
-                                                </li>-->
+                                                </li>
+                                                <li class="item-cart">
+                                                    <div class="product-img-wrap">
+                                                        <a href="#"><img src="img/cart1.jpg" alt="" class="img-reponsive"></a>
+                                                    </div>
+                                                    <div class="product-details">
+                                                        <div class="inner-left">
+                                                            <div class="product-name"><a href="#">
+                                                            Harman Kardon Onyx Studio </a></div>
+                                                            <div class="product-price">
+                                                                $ 60.00 <span>( x2)</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                     <a href="#" class="e-del">
+                                                     <i class="ion-ios-close-empty"></i></a>
+                                                </li>
                                             </ul>
                                             <div class="bottom-cart">
                                                 <div class="cart-price">
                                                     <span>Subtotal</span>
-                                                    <span class="price-total"><?php echo $subtotal_price; ?></span>
-                                                    
+                                                    <span class="price-total">$ 120.00</span>
                                                 </div>
-
                                                 <div class="button-cart">
                                                     <a href="#" class="cart-btn btn-viewcart">View Cart</a>
-                                                    <a href="checkout.php" class="cart-btn e-checkout btn-gradient">Checkout</a>
+                                                    <a href="#" class="cart-btn e-checkout btn-gradient">Checkout</a>
                                                 </div>
                                             </div>
-                                            
-                                                          <?php 
-                                              }else{
-                                              	echo "<h3>Your cart is empty!</h3>";
-                                              	}
-                                              ?>
                                         </div>
-                                        
-                                    </div>
+                                   </div>
                                     <a href="#" class="hidden-md hidden-lg icon-pushmenu js-push-menu">
                                         <i class="fa fa-bars f-15"></i>
                                     </a>
@@ -330,7 +409,8 @@ if (isset($_POST['checkout'])){
                        <div class="row flex lr2">
                             <div class="col-lg-3 widget-verticalmenu">
                                 <div class="navbar-vertical">
-                                    <button class="navbar-toggles navbar-drop js-vertical-menu"><span>All Departments</span></button>
+                                    <button class="navbar-toggles navbar-drop js-vertical-menu">
+                                    <span>All Departments</span></button>
                                 </div>
                                 <div class="vertical-wrapper">
                                     <ul class="vertical-group">
@@ -574,7 +654,7 @@ if (isset($_POST['checkout'])){
                                         </button>
                                        <div class="collapse navbar-collapse" id="myNavbar">
                                             <ul class="nav navbar-nav js-menubar">
-                                                <li class="level1 active hassub"><a href="#">Home</a>
+                                                <li class="level1 active hassub"><a href="products_test.php">Home</a>
                                                     <span class="plus js-plus-icon"></span>
                                                     <div class="menu-level-1 ver2 dropdown-menu">
                                                        <div class="row">
@@ -729,217 +809,85 @@ if (isset($_POST['checkout'])){
         </header>
         <!-- /header -->
         <!--content-->
-        <div class="container container-240">
-            <div class="checkout">
+        <div class="container container-240">            
+            <div class="myaccount trackorder">
                 <ul class="breadcrumb v3">
                     <li><a href="#">Home</a></li>
-                    <li class="active">Cart</li>
+                    <li class="active">Order History</li>
                 </ul>
-                <div class="row">
-                <form id="cart-sub" action="" name="cart"  method="post">
-               
-                    <div class="col-md-8 col-sm-12 col-xs-12">
-                    <?php
-                               if(isset($_SESSION["shopping_cart"])){
-                                   $subtotal_price = 0;
-                                   
-                               ?>	
-                        <div class="shopping-cart bd-7">
-                            <div class="cmt-title text-center abs">
-                                <h1 class="page-title v2">Cart</h1>
-                            </div>
-
-                         <?php   echo $_SESSION['flatRate'];
-echo $_SESSION['shipping_rate']; ?>
-                            <div class="table-responsive">
-                                <table class="table cart-table">
-                                    
-                                    <tbody>
-                                   
-                                       <?php
-                                       foreach($_SESSION["shopping_cart"] as $product){
-                                          ?>
-                                        <tr class="item_cart">
-                                            <td class="product-name flex align-center">
-                                              <input type='hidden' name='code' value="<?php echo $product["code"]; ?>" />
-                                                    <button type="submit" name='remove' class="btn btn-del ion-ios-close-empty"></button>
-                                                <div class="product-img">
-                                                    <img src="img/product/<?php echo $product["code"] ?>.jpg" alt="Futurelife">
-                                                </div>
-                                                <div class="product-info">
-                                                    <a href="#" title=""><?php echo $product["product_name"]?> </a>
-                                                </div>
-                                            </td>
-                                            
-                                            <td class="bcart-quantity single-product-detail">
-                                                <div class="single-product-info">
-                                                    
-                                                    <input type='hidden' name='code' value="<?php echo $product["code"]; ?>" />
-                                                    <input type='hidden' name='action' value="change" />
-                                                    <div class="e-quantity">
-                                                    
-                                                     <input type="number" step="1" min="1" max="999"
-                                                       name="quantity" value="<?php echo $product["quantity"]?>" title="Qty"
-                                                        class="qty input-text js-number" size="4"  onchange="this.form.submit()">
-
-                                                      <!--<div class="tc pa">
-                                                         <button  class="js-plus quantity-right-plus"><i class="fa fa-caret-up"></i></button>
-                                                         <button  class="js-minus quantity-left-minus"><i class="fa fa-caret-down"></i></button>
-                                                      </div>-->
-                                                   </div>
-                            
-                                                </div>
-                                            </td>
-                                            <td class="total-price">
-                                                <p class="price" ><?php echo $product["product_price"]?></p>
-                                            </td>
-                                        </tr>
-                                        <?php
-                                                
-                                                    $subtotal_price += ((float)($product["product_price"]) * $product["quantity"]);
-
-                                                        }   ?>
-
-                                        <!--<tr class="item_cart">
-                                            <td class="product-name flex align-center">
-                                                <a href="#" class="btn-del"><i class="ion-ios-close-empty"></i></a>
-                                                <div class="product-img">
-                                                    <img src="img/product/sound2.jpg" alt="Futurelife">
-                                                </div>
-                                                <div class="product-info">
-                                                    <a href="#" title="">Harman Kardon Onyx Studio </a>
-                                                </div>
-                                            </td>
-                                            
-                                            <td class="bcart-quantity single-product-detail">
-                                                <div class="single-product-info">
-                                                    <div class="e-quantity">
-                                                      <input type="number" step="1" min="1" max="999" name="quantity" value="1" title="Qty" class="qty input-text js-number" size="4">
-                                                      <div class="tc pa">
-                                                         <a class="js-plus quantity-right-plus"><i class="fa fa-caret-up"></i></a>
-                                                         <a class="js-minus quantity-left-minus"><i class="fa fa-caret-down"></i></a>
-                                                      </div>
-                                                   </div>
-                                                </div>
-                                            </td>
-                                            <td class="total-price">
-                                                <p class="price">$1,215.00</p>
-                                            </td>
-                                        </tr>
-
-                                        <tr class="item_cart">
-                                            <td class="product-name flex align-center">
-                                                <a href="#" class="btn-del"><i class="ion-ios-close-empty"></i></a>
-                                                <div class="product-img">
-                                                    <img src="img/product/sound2.jpg" alt="Futurelife">
-                                                </div>
-                                                <div class="product-info">
-                                                    <a href="#" title="">Harman Kardon Onyx Studio </a>
-                                                </div>
-                                            </td>
-                                            
-                                            <td class="bcart-quantity single-product-detail">
-                                                <div class="single-product-info">
-                                                    <div class="e-quantity">
-                                                      <input type="number" step="1" min="1" max="999" name="quantity" value="1" title="Qty" class="qty input-text js-number" size="4">
-                                                      <div class="tc pa">
-                                                         <a class="js-plus quantity-right-plus"><i class="fa fa-caret-up"></i></a>
-                                                         <a class="js-minus quantity-left-minus"><i class="fa fa-caret-down"></i></a>
-                                                      </div>
-                                                   </div>
-                                                </div>
-                                            </td>
-                                            <td class="total-price">
-                                                <p class="price">$1,215.00</p>
-                                            </td>
-                                        </tr> -->
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="table-cart-bottom">
-                                
-                                    <div class="form_coupon">
-                                        <input type="email" value="" placeholder="Coupon code" name="EMAIL" id="mail" class="newsletter-input form-control">
-                                        <div class="input-icon">
-                                            <img src="img/coupon-icon.png" alt="">
-                                        </div>
-                                        <button id="subscribe2" class="button_mini btn" type="submit">
-                                            Apply coupon
-                                        </button>
-                                    </div>
-                                
-                                <button type="submit" class="btn btn-update">Update cart</button> 
-                            </div>
-            
+                <div class="row flex pd">
+                    <div class="account-element bd-7">
+                        <div class="cmt-title text-center abs">
+                            <h1 class="page-title v6">Track your Order</h1>
                         </div>
-                        <?php 
-                                              }else{
-                                              	echo "<h3>Your cart is empty!</h3>";
-                                              	}
-                                              ?>
-                    </div>
-                    <div class="col-md-4 col-sm-12 col-xs-12">
-                        <div class="cart-total bd-7">
-                            <div class="cmt-title text-center abs">
-                                <h1 class="page-title v3">Cart totals</h1>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="shop_table">
-                                    <tbody>
-                                        <tr class="cart-subtotal">
-                                            <th>Subtotal</th>
-                                            <td><?php echo $subtotal_price?></td>
-                                            <input type='hidden' id="subtotal_price" name='subtotal_price' 
-                                                    value="<?php echo $subtotal_price; ?>" />
-                                        </tr>
-                                        <tr class="cart-shipping">
-                                            <th>Shipping</th>
-                                            <td class="td">
-                                                <ul class="shipping">
-                                                    <li>
-                                                        <input type="radio" name="shipping_rate" value="12" id="radio1"
-                                                        <?php echo $flatRate ?>
-                                                         onchange="this.form.submit();" >
-                                                         
-                                                        <label for="radio1">Flat rate : $ 12</label>
-                                                    </li>
-                                                    <li>
-                                                        <input type="radio" name="shipping_rate"   value="0" id="radio2"
-                                                        <?php echo $freeRate ?> 
-                                                        onchange="this.form.submit();">
-                                                        <label for="radio2">Free Shipping</label>
-                                                    </li>
-                                                </ul>
-                                                <a href="#" class="calcu">Calculate shipping</a>
-                                            </td>
-                                        </tr>
-                                        <tr class="order-total">
-                                            <th>Total</th>
-                                            <td scope="col"> $  <?php  $total_price = $_SESSION['shipping_rate']  + $subtotal_price;                                                   
-                                                                   echo $total_price ?></td>
-                                            
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div class="page-content">
+                            <p></p>
+                            <table class="table table-striped" width="100%" border="1">
+                        <tr>
+                        <th scope='col'>ID</th>
+                        <th scope='col'>Tracking ID</th>
+                        <th scope='col'>Product Name</th>
+                        <th scope='col'>Status</th>
                             
-                            <div class="cart-total-bottom">
-                                <button type="submit" name="checkout" class="btn-gradient btn-checkout">Proceed to checkout</button>
-                            </div>
-                            <div class="sign-in-divider">
-                                <span>or</span>
-                            </div>
-                            <div class="cart-total-bottom pp-checkout">
-                                <a href="#"><img src="img/checkoutpp.jpg" alt="" class="img-responsive"></a>
-                            </div>
-                        </div>
-                    </div>
-                    </form>
-                </div>
+                        <th scope='col'>Location</th>
+                            <th scope='col'>Date</th>
+                            <th scope='col'>Remark</th>
                 
+                
+                        </tr>
+                        <?php 
+                        if (isset($_POST['product_id'])) {
+                            $sql = "DELETE FROM tracking_order_history WHERE tracking_order_id=$id";
+                            $result = $mysqli->query($sql);
+                        }
+                    
+                        $sql = "SELECT * FROM tracking_order";
+                        $result =$mysqli->query($sql); ?>
+
+                        <!--<table width = "100%" border = "1" cellspacing = "1" cellpadding = "1"> -->
+                        <?php while ($row = mysqli_fetch_array($result)) { ?>
+                            <tr>
+                                <th scope='col'>
+                                    <?php echo $row['id']; ?>
+                                </th>
+                                
+                               <!--<td> <img src="img/product/<?php echo $row["code"];?>.jpg" 
+                                        alt="" class="img-reponsive php-image">
+                                </td>-->
+                               
+                                <td>
+                                    <?php echo $row['tracking_order_id']; ?>
+                                </td>
+                                <td>
+                                    <?php echo $row['product_name']; ?>
+                                </td>
+                                <td>
+                                    <?php echo $row['orderStatus']; ?>
+                                </td>
+                                <td>
+                                    <?php echo $row['current_Location']; ?>
+                                </td>
+                                <td>
+                                    <?php echo $row['orderDate']; ?>
+                                </td>
+                                <td>
+                                    <?php echo $row['Remark']; ?>
+                                </td>
+                
+                
+                            </tr>
+                    <?php
+                        }
+                    ?>
+                  </table>
+                        </div>
+
+                        
+                    </div>
+                </div>
             </div>
         </div>
-                <div class="e-category">
+<div class="e-category">
             <div class="container container-240">
                 <div class="row">
                     <div class="col-xs-12 col-sm-4 col-md-4">
@@ -1154,7 +1102,7 @@ echo $_SESSION['shipping_rate']; ?>
                                     <h3 class="footer-block-title">Subscription</h3>
                                     <p>Register now to get updates on promotions and coupons.</p>
                                     <form class="form_newsletter" action="#" method="post">
-                                        <input type="email" value="" placeholder="Enter your emaill adress" name="EMAIL" id="mail2" class="newsletter-input form-control">
+                                        <input type="email" value="" placeholder="Enter your emaill adress" name="EMAIL" id="mail" class="newsletter-input form-control">
                                         <button id="subscribe" class="button_mini btn btn-gradient" type="submit">
                                             Subscribe
                                         </button>
@@ -1185,9 +1133,13 @@ echo $_SESSION['shipping_rate']; ?>
         <!-- /footer -->
         <!-- /footer -->
     </div>
-    <?php include("scripts.php") ?>
     
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/slick.min.js"></script>
     
+    <script src="js/main.js"></script>
 </body>
 
 </html>

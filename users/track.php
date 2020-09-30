@@ -20,12 +20,13 @@ if (!isLoggedIn()) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <title>E-come | Multi-Purpose HTML Template for Electronics Store</title>
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <!--<link rel="stylesheet" href="css/owl.carousel.min.css">
     <link rel="shortcut icon" href="img/favicon.png" type="image/png">
     <link rel="stylesheet" href="css/slick.css">
     <link rel="stylesheet" href="css/slick-theme.css">
     <link rel="stylesheet" href="css/owl.theme.default.min.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">-->
+    <?php include("styles.php") ?>
 </head>
 
 <body>
@@ -767,61 +768,91 @@ if (!isLoggedIn()) {
         <!-- /header -->
         <!--content-->
         <div class="container container-240">
-        <table class="table table-striped" width="100%" border="1">
-                        <tr>
-                            <th scope='col'>Product ID</th>
-                            <th scope='col'>Type</th>
-                            <th scope='col'>Name</th>
-                            <th scope='col'>Size</th>
-                            <th scope='col'>Description</th>
-                            <th scope='col'>Price</th>
-                            <th scope='col'>Status</th>
-                            <th scope='col'>Date</th>
-                
-                
-                        </tr>
+        
                 <?php 
-                if(isset($_POST['email'])){
-    $email = $_POST['email'];
+                if(((isset($_POST['email'])) && (isset($_POST['valueToSearch']))) || 
+                (((isset($_SESSION['email']))) && (isset($_SESSION['valueToSearch']))) 
+                || (isset($_GET['history']))){
+                    if(isset(($_POST['email']))){
+                        $email = $_POST['email'];
+                        $valueToSearch = $_POST['valueToSearch'];
+                    }
+
+                    if(isset(($_SESSION['email']))){
+                        $email = $_SESSION['email'];
+                        $valueToSearch = $_SESSION['valueToSearch'];
+                    }
     $sql = "SELECT * FROM users WHERE email='$email'";
     $result = $mysqli->query($sql)or die($mysqli ->error);
     $rows = mysqli_num_rows($result);
         if($rows==1){
-    $valueToSearch = $_POST['valueToSearch'];
+            $_SESSION['email'] = $email;
+            $_SESSION['valueToSearch'] = $valueToSearch;
+    
     // search in all table columns
     // using concat mysql function
-    $sql = "SELECT * FROM products WHERE 
-    product_id LIKE '%".$valueToSearch."%'";
+    $sql = "SELECT * FROM tracking_order WHERE 
+    id LIKE '%".$valueToSearch."%'";
     $result = $mysqli->query($sql);
         }
+
+        $_SESSION['valueToSearch'] = $valueToSearch;
+
  ?>
+ <?php echo $_SESSION['email'];
+ echo $_SESSION['valueToSearch'];?>
+ <table class="table table-striped" width="100%" border="1">
+                        <tr>
+                        <th scope='col'>Tracking ID</th>
+                            
+                            <th scope='col'>Name</th>
+                            <th scope='col'>Price</th>
+                            <th scope='col'>Quantity</th>
+                            <th scope='col'>Origin</th>
+                            <th scope='col'>Destination</th>
+                            <th scope='col'>Payment Method</th>
+                            <th scope='col'>Date</th>
+
+                            <th scope='col'>History</th>
+                
+                
+                        </tr>
                         <!--<table width = "100%" border = "1" cellspacing = "1" cellpadding = "1"> -->
                         <?php while ($row = mysqli_fetch_array($result)) { ?>
                             <tr>
                                 <th scope='col'>
-                                    <?php echo $row['product_id']; ?>
+                                    <?php echo $row['id']; ?>
                                 </th>
-                                <td>
-                                    <?php echo $row['product_type']; ?>
-                                </td>
+
                                 <td>
                                     <?php echo $row['product_name']; ?>
                                 </td>
-                                <td>
-                                    <?php echo $row['product_size']; ?>
-                                </td>
-                                <td>
-                                    <?php echo $row['product_desc']; ?>
-                                </td>
+                                
+                               
                                 <td>
                                     <?php echo $row['product_price']; ?>
                                 </td>
+                        
                                 <td>
-                                    <?php echo $row['product_status']; ?>
+                                    <?php echo $row['quantity']; ?>
                                 </td>
                                 <td>
-                                    <?php echo $row['last_added']; ?>
+                                    <?php echo $row['prodOrigin']; ?>
                                 </td>
+                                <td>
+                                    <?php echo $row['prodDest']; ?>
+                                </td>
+                              
+                                <td>
+                                    <?php echo $row['payMeth']; ?>
+                                </td>
+                                <td>
+                                    <?php echo $row['lastDate']; ?>
+                                </td>
+
+                                <td><a href="track.php?history=<?php echo $row['id']; ?>" 
+                    onclick="return confirm('Are You Sure')">History
+                    </a> </td>
                 
                 
                             </tr>
@@ -829,12 +860,88 @@ if (!isLoggedIn()) {
                         }
                      }
                         else {
-                            $sql = "SELECT * FROM products";
+                            $sql = "SELECT * FROM tracking_order";
                             $result = $mysqli->query($sql);
                         }
                     ?>
                   </table>
-            
+                  
+
+
+
+
+            <div> <h1 class="page-title v6 text-center">Track History</h1></div>
+
+                  <?php 
+                    if(isset($_GET['history'])){
+
+                    $id = $_GET['history'];
+                
+                    $sql = "SELECT * FROM tracking_order_history WHERE tracking_order_id=$id";
+                    $result = $mysqli->query($sql);
+                    
+                    ?> 
+    <table class="table table-striped" width="100%" border="1">
+                        
+                        <tr>
+                        <th scope='col'>ID</th>
+                        <th scope='col'>Tracking ID</th>
+                        <th scope='col'>Product Name</th>
+                        <th scope='col'>Status</th>
+                            
+                        <th scope='col'>Location</th>
+                            <th scope='col'>Date</th>
+                            <th scope='col'>Remark</th>
+                
+                           
+                
+                        </tr>
+               
+                        <!--<table width = "100%" border = "1" cellspacing = "1" cellpadding = "1"> -->
+                        <?php while ($row = mysqli_fetch_array($result)) { ?>
+                            <tr>
+                            <th scope='col'>
+                                    <?php echo $row[0]; ?>
+                                </th>
+
+                                <td>
+                                    <?php echo $row[1]; ?>
+                                </td>
+                                
+                               
+                                <td>
+                                    <?php echo $row[2]; ?>
+                                </td>
+
+                                <td>
+                                    <?php echo $row[3]; ?>
+                                </td>
+                        
+                                
+                                <td>
+                                    <?php echo $row[4]; ?>
+                                </td>
+                                <td>
+                                    <?php echo $row[5]; ?>
+                                </td>
+
+                                <td>
+                                    <?php echo $row[6]; ?>
+                                </td>
+                                
+                
+                            </tr>
+                    <?php
+                        }
+                    }
+                    else {
+                        $sql = "SELECT * FROM tracking_order_history";
+                        $result = $mysqli->query($sql);
+                    }
+                    ?>
+                  </table>
+
+        
             <div class="myaccount trackorder">
                 <ul class="breadcrumb v3">
                     <li><a href="#">Home</a></li>
@@ -1113,12 +1220,13 @@ if (!isLoggedIn()) {
         <!-- /footer -->
     </div>
     
-    <script src="js/jquery.js"></script>
+    <!--<script src="js/jquery.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/slick.min.js"></script>
     
-    <script src="js/main.js"></script>
+    <script src="js/main.js"></script>-->
+    <?php include("scripts.php") ?>
 </body>
 
 </html>

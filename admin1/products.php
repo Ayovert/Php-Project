@@ -66,6 +66,7 @@
             <th scope='col'>Description</th>
             <th scope='col'>Price</th>
             <th scope='col'>Status</th>
+            <th scope='col'>Location</th>
             <th scope='col'>Date</th>
 
             <th scope='col'>Delete</th>
@@ -105,6 +106,9 @@
                 <td>
                     <?php echo $row[8]; ?>
                 </td>
+                <td>
+                    <?php echo $row[9]; ?>
+                </td>
 
 
 
@@ -115,16 +119,16 @@
                     <td><a href="connection.php?del=<?php echo $row['product_id']; ?>" 
                     onclick="return confirm('Are You Sure')">Delete
                     </a> </td>
-                    <td><a href="connection.php?track=<?php echo $row['product_id'];?>"
-                     onclick="return confirm('Are You Sure')">Track
-                    </a></td>
+                    
             </tr>
     <?php
         }
     ?>
 </table>
-<button class="btn" type="submit" style="background: #556B2F;" ><a href="student.php">Go to Users</a></button>
-<button class="btn" type="submit" style="background: #556B2F;" ><a href="index.php">home</a></button>
+<button class="btn" type="button" style="background: #556B2F;" ><a href="student.php">Go to Users</a></button>
+                  <button class="btn" type="button" style="background: #556B2F;" ><a href="products.php">Go to Products</a></button>
+                  <button class="btn" type="button" style="background: #556B2F;" ><a href="index.php">home</a></button>
+                  <button class="btn" type="button" style="background: #556B2F;" ><a href="track.php">Tracking Information</a></button>
                 <div class="row">
                     <div class="col-lg-5">
                         <div class="auth-form">
@@ -132,16 +136,16 @@
                                 <div class="col">
                                
                             <div class="logo-box"><a href="#" class="logo-text">Connect</a></div>
-                            <form method="post" action="connection.php">
                             <?php
    if (isset($_GET['edit'])) {
     $product_id = $_GET['edit'];
     $update = true;
     $sql = "SELECT * FROM products WHERE product_id=$product_id";
     $result = $mysqli->query($sql);
-  
-    if ($result = $mysqli->query($sql) && (count((array)$result)) == 1) {
-        $row = mysqli_fetch_row($result);
+
+    if ($result = $mysqli->query($sql)) {
+        $row = mysqli_fetch_array($result);
+
         $product_type = $row['product_type'];
         $product_name = $row['product_name'];
         $code = $row['code'];
@@ -149,9 +153,13 @@
         $product_desc = $row['product_desc'];
         $product_price = $row['product_price'];
         $product_status = $row['product_status'];
+        $product_location = $row['product_location'];
         $last_added = date("Y-m-d H:i:s");
-      
-  
+    
+        
+ 
+ 
+
       /*  if(isset($row['product_type'])) {
             $product_type = $row['product_type'];
           }
@@ -173,11 +181,13 @@
             }
           
              $last_added = date("Y-m-d H:i:s");*/
-        } 
-        
+            
     }
+}
   
 ?>
+                            <form method="post" action="connection.php">
+                            
 
                            <?php echo $product_id; ?>
                            <?php echo  $product_type; ?>
@@ -212,6 +222,12 @@
 			<label>Product Status</label>
 			<input type="text" class="form-control" name="product_status" value="<?php echo $product_status; ?>">
         </div>
+
+        <div class="form-group">
+			<label>Product Location</label>
+			<input type="text" class="form-control" name="product_location" value="<?php echo $product_location; ?>">
+        </div>
+        
         
 		<div class="form-group">
         <?php if ($update == true): ?>
@@ -221,6 +237,7 @@
 <?php endif ?>
 		</div>
       </form>
+      
  
         </div>
                             </div>                      

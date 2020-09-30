@@ -43,13 +43,17 @@ include("connection.php");
     
     <table class="table table-striped" width="100%" border="1">
                         <tr>
-                            <th scope='col'>Product ID</th>
-                            <th scope='col'>Type</th>
+                        <th scope='col'>Tracking ID</th>
+        
+                        <th scope='col'>user ID</th>
+                        <th scope='col'>product ID</th>
+                            
                             <th scope='col'>Name</th>
-                            <th scope='col'>Size</th>
-                            <th scope='col'>Description</th>
                             <th scope='col'>Price</th>
-                            <th scope='col'>Status</th>
+                            <th scope='col'>Quantity</th>
+                            <th scope='col'>Origin</th>
+                            <th scope='col'>Destination</th>
+                            <th scope='col'>Payment Method</th>
                             <th scope='col'>Date</th>
                 
                             <th scope='col'>Delete</th>
@@ -58,11 +62,21 @@ include("connection.php");
                 
                         </tr>
                 <?php if(isset($_POST['search'])){
+                    if (isset($_POST['id'])) {
+                        $sql = "DELETE FROM tracking_order WHERE id=$id";
+                        $result = $mysqli->query($sql);
+                    }
+                    $sql ="ALTER TABLE tracking_order AUTO_INCREMENT=$id";
+                    $result = $mysqli->query($sql);
+                
+                    $sql = "SELECT * FROM tracking_order";
+                    $result = $mysqli->query($sql);
+
     $valueToSearch = $_POST['valueToSearch'];
     // search in all table columns
     // using concat mysql function
-    $sql = "SELECT * FROM products WHERE 
-    product_id LIKE '%".$valueToSearch."%'";
+    $sql = "SELECT * FROM tracking_order WHERE 
+    id LIKE '%".$valueToSearch."%'";
     $result = $mysqli->query($sql);
     
 
@@ -71,30 +85,56 @@ include("connection.php");
                         <!--<table width = "100%" border = "1" cellspacing = "1" cellpadding = "1"> -->
                         <?php while ($row = mysqli_fetch_array($result)) { ?>
                             <tr>
+                            <th scope='col'>
+                                    <?php echo $row['id']; ?>
+                                </th>
+
+                                <th scope='col'>
+                                    <?php echo $row['userId']; ?>
+                                </th>
+                            
+
                                 <th scope='col'>
                                     <?php echo $row['product_id']; ?>
                                 </th>
-                                <td>
-                                    <?php echo $row['product_type']; ?>
-                                </td>
+
+                                
+
                                 <td>
                                     <?php echo $row['product_name']; ?>
                                 </td>
-                                <td>
-                                    <?php echo $row['product_size']; ?>
-                                </td>
-                                <td>
-                                    <?php echo $row['product_desc']; ?>
-                                </td>
+                                
+                               
                                 <td>
                                     <?php echo $row['product_price']; ?>
                                 </td>
+                        
                                 <td>
-                                    <?php echo $row['product_status']; ?>
+                                    <?php echo $row['quantity']; ?>
                                 </td>
                                 <td>
-                                    <?php echo $row['last_added']; ?>
+                                    <?php echo $row['prodOrigin']; ?>
                                 </td>
+                                <td>
+                                    <?php echo $row['prodDest']; ?>
+                                </td>
+                              
+                                <td>
+                                    <?php echo $row['payMeth']; ?>
+                                </td>
+                                <td>
+                                    <?php echo $row['lastDate']; ?>
+                                </td>
+
+                                <td><a href="products.php?edit=<?php echo $row['id'];?>" 
+                onclick="return confirm('Are You Sure')">Edit
+                    </a></td>
+                    <td><a href="connection.php?del=<?php echo $row['id']; ?>" 
+                    onclick="return confirm('Are You Sure')">Delete
+                    </a> </td>
+                    <td><a href="connection.php?track=<?php echo $row['id'];?>"
+                     onclick="return confirm('Are You Sure')">Track
+                    </a></td>
                 
                 
                             </tr>
@@ -107,6 +147,9 @@ include("connection.php");
                         }
                     ?>
                   </table>
+                  <button class="btn" type="submit" style="background: #556B2F;" ><a href="student.php">Go to Users</a></button>
+                  <button class="btn" type="submit" style="background: #556B2F;" ><a href="products.php">Go to Products</a></button>
+<button class="btn" type="submit" style="background: #556B2F;" ><a href="index.php">home</a></button>
 
         
         <div class='loader'>

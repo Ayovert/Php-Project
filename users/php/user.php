@@ -1,7 +1,6 @@
 
 <div class="profile_info">
 			<img src="../images/admin_profile.png" >
-
 			<div>
 				<?php  if (isset($_SESSION['username'])) : ?>
 					<strong><?php echo $_SESSION['username']; ?></strong><br>

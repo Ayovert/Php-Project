@@ -1,8 +1,7 @@
 <?php
 session_start();
 include("../admin1/connection.php");
-
-
+echo $_SESSION['flatRate'];
 if((isset($_SESSION['shopping_cart'])) || (!isset($_SESSION['shopping_cart'])) ){
     if(isset($_POST['product_name'])) {
         $product_name = $_POST['product_name'];
@@ -48,6 +47,10 @@ $row = mysqli_fetch_array($result);
         $product_status = $row['product_status'];
     }
 
+    if(isset($_POST['product_location'])) {
+        $product_location = $row['product_location'];
+    }
+
 
 $product_name = $row['product_name'];
  $code = $row['code'];
@@ -65,8 +68,18 @@ $cartArray = array(
 );
  
 if(empty($_SESSION["shopping_cart"])) {
+
+$username = $_SESSION['username']; 
+$id = $_SESSION['id'];
+$sql = "INSERT INTO tracking_order (user_id)
+SELECT id FROM users WHERE username='$username'";
+$mysqli->query($sql);
+
+
     $_SESSION["shopping_cart"] = $cartArray;
     $status = "<div class='box'>Product is added to your cart!</div>";
+
+
 }else{
     $array_keys = array_keys($_SESSION["shopping_cart"]);
     if(in_array($code,$array_keys)) {

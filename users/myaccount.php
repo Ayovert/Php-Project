@@ -42,7 +42,9 @@ include("../admin1/connection.php"); ?>
                        <div class="col-lg-7 col-md-7 v-center header-search hidden-xs hidden-sm">
                             <form method="get" class="searchform ajax-search" action="/search" role="search">
                                 <input type="hidden" name="type" value="product">
-                                <input type="text" onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" name="q" class="form-control" placeholder="i’m shoping for...">
+                                <input type="text" onblur="if (this.value=='') this.value = this.defaultValue" 
+                                onfocus="if (this.value==this.defaultValue) this.value = ''" 
+                                name="q" class="form-control" placeholder="i’m shoping for...">
                                 <ul class="list-product-search hidden-xs hidden-sm">
                                     <li>
                                         <a class="flex align-center" href="">
@@ -599,6 +601,11 @@ include("../admin1/connection.php"); ?>
                         <div class="page-content">
                             <p>Sign in to your account</p>
                             <form class="login-form" method="post" action="#"> 
+                            <input type="text" id="user_id" class="form-control bdr" name="id">
+                            <input type="text" id="cart_id" class="form-control bdr" name="cart_id" value="1">
+                            <input type="text" id="flatRate" class="form-control bdr" name="flatRate" value="checked">
+                            <input type="text" id="freeRate" class="form-control bdr" name="freeRate" value="unchecked">
+                            <input type="text" id="shipping_rate" class="form-control bdr" name="shipping_rate" value="12">
                                   <div class="form-group">
                                     <label>Username or Email address <span class="f-red">*</span></label>
                                       <input type="text" id="author" class="form-control bdr" name="username" value="" required>

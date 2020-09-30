@@ -3,8 +3,31 @@
         e.stopPropagation(); e.preventDefault(); 
     })
 });*/
+$(document).ready(function() {
+  
+ 
 
-jQuery(document).ready(function($) {
+
+      /*$("#cart-sub").on("submit",function(e){
+        
+ 
+  
+  e.preventDefault();
+      });*/
+     
+     //
+     
+ // $("#cart-sub").on("submit", function(){
+   // $("#cart-sub").submit();
+    
+    
+   
+ // });
+
+    //carter();
+
+    
+
 
     $(".js-plus").on("click", function(e) {
         e.preventDefault();
@@ -63,11 +86,14 @@ jQuery(document).ready(function($) {
     
       });
 
+
+
+     
      $("#myInput").on("input", function(){
          $("#result").text($(this).val());
       });
 
-    $(function cartForm(){
+    /*$(function cartForm(){
     
         var dataString =  $(this).serialize();
         $.ajax({
@@ -75,7 +101,7 @@ jQuery(document).ready(function($) {
             url: 'products_test.php',
             data: dataString,
             success: function () {
-                alert("success");
+                alert("done");
             }
         });
      return False;  
@@ -95,14 +121,16 @@ jQuery(document).ready(function($) {
             url: 'products_test.php',
             data: dataString,
             success: function () {
-                alert("success");
+                alert("done");
             }
         });
         
         return false;
 
         
-    });
+    });*/
+
+  
 
 
       //  $(".numbers-row").append('<div class="inc button">+</div><div class="dec button">-</div>');
